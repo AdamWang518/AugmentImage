@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+   Copyright 2016 Google Inc.
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<resources>
+    <string name="app_name">Augmented Images</string>
+    <string name="fit_image_to_scan">Fit image to scan</string>
+    <string name="cguintrotext" >本校是由台塑企業創辦人王永慶先生於民國76年4月所創立，原名為長庚醫學院，其後為配合國家經濟發展需要，增設工程學類及管理學類之系所，培育優秀之醫學、工程及管理人才，並於82年更改校名為「長庚醫學暨工程學院」。其後本校陸續增設相關系所，奉教育部核定於86年7月起正式改制為「長庚大學」。目前全校設有醫學、工學、管理等三個學院，共有18個學系、23個碩士班、1個碩士學位學程、7個碩士在職專班及8個博士班，學生共有7,586人。本校系所之設立均經嚴密規劃，師資陣容堅強，教學與研究設備齊全，發展目標以質為重，在研究方面，各個系所亦都有獨特研究重點，成果豐碩。</string>
+
+</resources>
