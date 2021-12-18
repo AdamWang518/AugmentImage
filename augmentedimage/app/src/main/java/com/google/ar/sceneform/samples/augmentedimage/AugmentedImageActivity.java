@@ -106,6 +106,10 @@ public class AugmentedImageActivity extends AppCompatActivity {
           // Have to switch to UI Thread to update View.
           fitToScanView.setVisibility(View.GONE);
           // Create a new anchor for newly found images.
+//          AugmentedImageNode node = new AugmentedImageNode(this);
+//          node.setImage(augmentedImage);
+//          augmentedImageMap.put(augmentedImage, node);
+//          arFragment.getArSceneView().getScene().addChild(node);
      //搞懂如何反覆投放
           if (!augmentedImageMap.containsKey(augmentedImage)) {
             SnackbarHelper.getInstance().showMessage(this, "showing");
@@ -127,8 +131,8 @@ public class AugmentedImageActivity extends AppCompatActivity {
 
 
   public void clearDetect(View view) {
-    augmentedImageMap.remove(this.image);
-
+   // augmentedImageMap.remove(this.image);  => 用來判定物件生成的所在位置的圖片，若把圖片清空的話，物件就無法被放入，可以從這邊觀察下手，想辦法讓他能重新識別
+  // 想辦法如何再把其他圖片放入，讓物件能重新擺上去
     arFragment.getArSceneView().getScene().removeChild(node);
   }
 
