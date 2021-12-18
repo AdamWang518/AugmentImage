@@ -36,4 +36,23 @@
       android:contentDescription="@string/fit_image_to_scan"
       />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="clearDetect"
+            android:text="cancel" />
+
+        <Button
+            android:id="@+id/button5"
+            android:onClick="Put"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Put" />
+    </LinearLayout>
+
+
 </FrameLayout>

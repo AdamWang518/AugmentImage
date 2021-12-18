@@ -20,10 +20,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import com.google.ar.core.AugmentedImage;
 import com.google.ar.core.Frame;
 import com.google.ar.sceneform.FrameTime;
+import com.google.ar.sceneform.Scene;
 import com.google.ar.sceneform.samples.common.helpers.SnackbarHelper;
 import com.google.ar.sceneform.ux.ArFragment;
 import java.util.Collection;
@@ -49,16 +51,19 @@ public class AugmentedImageActivity extends AppCompatActivity {
   // Augmented image and its associated center pose anchor, keyed by the augmented image in
   // the database.
   private final Map<AugmentedImage, AugmentedImageNode> augmentedImageMap = new HashMap<>();
-
+  Button btn = null;
+  Scene scene = null;
+  AugmentedImageNode node = null;
+  AugmentedImage image = null;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-
+    this.btn = findViewById(R.id.cancel);
     arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.ux_fragment);
     fitToScanView = findViewById(R.id.image_view_fit_to_scan);
-
-    arFragment.getArSceneView().getScene().addOnUpdateListener(this::onUpdateFrame);
+    scene = arFragment.getArSceneView().getScene();
+    scene.addOnUpdateListener(this::onUpdateFrame);
   }
 
   @Override
@@ -93,7 +98,7 @@ public class AugmentedImageActivity extends AppCompatActivity {
         case PAUSED:
           // When an image is in PAUSED state, but the camera is not PAUSED, it has been detected,
           // but not yet tracked.
-          String text = "Detected Image::::::: " + augmentedImage.getIndex();
+          String text = "Detected Image: " + augmentedImage.getName();
           SnackbarHelper.getInstance().showMessage(this, text);
           break;
 
@@ -101,28 +106,33 @@ public class AugmentedImageActivity extends AppCompatActivity {
           // Have to switch to UI Thread to update View.
           fitToScanView.setVisibility(View.GONE);
           // Create a new anchor for newly found images.
-//          AugmentedImageNode node = new AugmentedImageNode(this);
-//          node.setImage(augmentedImage);
-//          augmentedImageMap.put(augmentedImage, node);
-//          arFragment.getArSceneView().getScene().addChild(node);
      //搞懂如何反覆投放
           if (!augmentedImageMap.containsKey(augmentedImage)) {
-            AugmentedImageNode node = new AugmentedImageNode(this);
-            node.setImage(augmentedImage);
-            augmentedImageMap.put(augmentedImage, node);
+            SnackbarHelper.getInstance().showMessage(this, "showing");
+            node = new AugmentedImageNode(this);
+            this.image = augmentedImage;
+
+            node.setImage(this.image);
+            augmentedImageMap.put(this.image, node);
             arFragment.getArSceneView().getScene().addChild(node);
           }
           break;
 
         case STOPPED:
-          augmentedImageMap.remove(augmentedImage);
+          augmentedImageMap.remove(this.image);
           break;
       }
     }
   }
 
-  public void clear(View view) {
-    augmentedImageMap.clear();
-    fitToScanView.setVisibility(View.VISIBLE);
+
+  public void clearDetect(View view) {
+    augmentedImageMap.remove(this.image);
+
+    arFragment.getArSceneView().getScene().removeChild(node);
+  }
+
+  public void Put(View view) {
+    arFragment.getArSceneView().getScene().addChild(node);
   }
 }
