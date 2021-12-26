@@ -27,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.ar.core.Anchor;
 import com.google.ar.core.AugmentedImage;
 import com.google.ar.sceneform.AnchorNode;
 import com.google.ar.sceneform.Node;
@@ -55,6 +56,7 @@ public class AugmentedImageNode extends AnchorNode {
   private View ListLayout=null;
   private View InfoLayout = null;
   private String[] department_name=new String[]{"資工","電機","機械","電子","化材"};
+  private Anchor anchor = null;
   public AugmentedImageNode(Context context) {
     // Upon construction, start loading the models for the corners of the frame.
     if (ulCorner == null) {
@@ -107,9 +109,9 @@ public class AugmentedImageNode extends AnchorNode {
                 return null;
               });
     }
-
+    this.anchor = image.createAnchor(image.getCenterPose());
     // Set the anchor based on the center of the image.
-    setAnchor(image.createAnchor(image.getCenterPose()));
+    setAnchor(this.anchor);
 
     setModelRenderable(CGUListRebderable,1.5f * image.getExtentX(), 0.0f, 1f * image.getExtentZ());
     setModelRenderable(CGUImageRenderable,-1f * image.getExtentX(), 0.0f, 1f * image.getExtentZ());
@@ -127,6 +129,11 @@ public class AugmentedImageNode extends AnchorNode {
       cornerNode.setLookDirection(Vector3.forward());
 
       cornerNode.setRenderable(renderable.getNow(null));
+  }
+
+  public  void removeAnchor(){
+     this.anchor.detach();
+
   }
 
 }

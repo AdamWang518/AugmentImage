@@ -22,14 +22,21 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+
+import com.google.ar.core.Anchor;
+import com.google.ar.core.AugmentedFace;
 import com.google.ar.core.AugmentedImage;
 import com.google.ar.core.Frame;
+import com.google.ar.core.TrackingState;
 import com.google.ar.sceneform.FrameTime;
 import com.google.ar.sceneform.Scene;
 import com.google.ar.sceneform.samples.common.helpers.SnackbarHelper;
 import com.google.ar.sceneform.ux.ArFragment;
+import com.google.ar.sceneform.ux.AugmentedFaceNode;
+
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -81,7 +88,6 @@ public class AugmentedImageActivity extends AppCompatActivity {
    */
   private void onUpdateFrame(FrameTime frameTime) {
     Frame frame = arFragment.getArSceneView().getArFrame();
-
     Log.d("leolog","AAAAAA");
     // If there is no frame, just return.
     if (frame == null) {
@@ -91,9 +97,8 @@ public class AugmentedImageActivity extends AppCompatActivity {
     Collection<AugmentedImage> updatedAugmentedImages =
         frame.getUpdatedTrackables(AugmentedImage.class);
     for (AugmentedImage augmentedImage : updatedAugmentedImages) {
-      Log.d("leolog","BBBBB");
+      Log.d("leolog",augmentedImage.getTrackingState().toString());
       SnackbarHelper.getInstance().showMessage(this, augmentedImage.getTrackingState().toString());
-
       switch (augmentedImage.getTrackingState()) {
         case PAUSED:
           // When an image is in PAUSED state, but the camera is not PAUSED, it has been detected,
@@ -105,16 +110,12 @@ public class AugmentedImageActivity extends AppCompatActivity {
         case TRACKING:
           // Have to switch to UI Thread to update View.
           fitToScanView.setVisibility(View.GONE);
-          // Create a new anchor for newly found images.
-//          AugmentedImageNode node = new AugmentedImageNode(this);
-//          node.setImage(augmentedImage);
-//          augmentedImageMap.put(augmentedImage, node);
-//          arFragment.getArSceneView().getScene().addChild(node);
-     //搞懂如何反覆投放
+         //搞懂如何反覆投放
           if (!augmentedImageMap.containsKey(augmentedImage)) {
             SnackbarHelper.getInstance().showMessage(this, "showing");
             node = new AugmentedImageNode(this);
             this.image = augmentedImage;
+
 
             node.setImage(this.image);
             augmentedImageMap.put(this.image, node);
@@ -131,9 +132,50 @@ public class AugmentedImageActivity extends AppCompatActivity {
 
 
   public void clearDetect(View view) {
-   // augmentedImageMap.remove(this.image);  => 用來判定物件生成的所在位置的圖片，若把圖片清空的話，物件就無法被放入，可以從這邊觀察下手，想辦法讓他能重新識別
+    Collection<Anchor> anchors = arFragment.getArSceneView().getSession().getAllAnchors();
+
+    for(Anchor anchor : anchors) {
+      anchor.detach();
+      Log.d("leolog2",anchor.getTrackingState().toString());
+    }
+
+    fitToScanView.setVisibility(View.VISIBLE);
+
+    Iterator<Map.Entry<AugmentedImage, AugmentedImageNode>> iter =
+            augmentedImageMap.entrySet().iterator();
+    while (iter.hasNext()) {
+      Map.Entry<AugmentedImage, AugmentedImageNode> entry = iter.next();
+      AugmentedImage face = entry.getKey();
+      AugmentedImageNode faceNode = entry.getValue();
+      faceNode.setParent(null);
+      iter.remove();
+      augmentedImageMap.remove(this.image);
+
+    }
+
+    // augmentedImageMap.remove(this.image);  => 用來判定物件生成的所在位置的圖片，若把圖片清空的話，物件就無法被放入，可以從這邊觀察下手，想辦法讓他能重新識別
   // 想辦法如何再把其他圖片放入，讓物件能重新擺上去
-    arFragment.getArSceneView().getScene().removeChild(node);
+//    fitToScanView.setVisibility(View.VISIBLE);
+//
+//    Iterator<Map.Entry<AugmentedImage, AugmentedImageNode>> iter =
+//            augmentedImageMap.entrySet().iterator();
+//    while (iter.hasNext()) {
+//      Map.Entry<AugmentedImage, AugmentedImageNode> entry = iter.next();
+//      AugmentedImage face = entry.getKey();
+//      AugmentedImageNode faceNode = entry.getValue();
+//      faceNode.setParent(null);
+//      iter.remove();
+//      augmentedImageMap.remove(this.image);
+//
+//    }
+//
+//
+
+//    this.node.getAnchor().detach();
+//    this.node.setParent(null);
+//    this.node = null;
+
+    //arFragment.getArSceneView().getScene().removeChild(node);
   }
 
   public void Put(View view) {
