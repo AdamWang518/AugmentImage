@@ -54,10 +54,10 @@ public class AugmentedImageActivity extends AppCompatActivity {
 
   private ArFragment arFragment;
   private ImageView fitToScanView;
-
+  private boolean isImageDetected=false;
   // Augmented image and its associated center pose anchor, keyed by the augmented image in
   // the database.
-  private final Map<AugmentedImage, AugmentedImageNode> augmentedImageMap = new HashMap<>();
+  private final HashMap<AugmentedImage, AugmentedImageNode> augmentedImageMap = new HashMap<>();
   Button btn = null;
   Scene scene = null;
   AugmentedImageNode node = null;
@@ -70,6 +70,8 @@ public class AugmentedImageActivity extends AppCompatActivity {
     arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.ux_fragment);
     fitToScanView = findViewById(R.id.image_view_fit_to_scan);
     scene = arFragment.getArSceneView().getScene();
+    node = new AugmentedImageNode(this);
+
     scene.addOnUpdateListener(this::onUpdateFrame);
   }
 
@@ -78,6 +80,7 @@ public class AugmentedImageActivity extends AppCompatActivity {
     super.onResume();
     if (augmentedImageMap.isEmpty()) {
       fitToScanView.setVisibility(View.VISIBLE);
+      Log.d("leolog","OnResume");
     }
   }
 
@@ -86,9 +89,44 @@ public class AugmentedImageActivity extends AppCompatActivity {
    *
    * @param frameTime - time since last frame.
    */
-  private void onUpdateFrame(FrameTime frameTime) {
+//  private void onUpdateFrame(FrameTime frameTime) {
+//    Collection<AugmentedImage> updatedAugmentedImages =
+//            arFragment.getArSceneView().getSession().getAllTrackables(AugmentedImage.class);
+//
+//    for (AugmentedImage face : updatedAugmentedImages) {
+//      if (!augmentedImageMap.containsKey(face)) {
+//        AugmentedImageNode faceNode = new AugmentedImageNode(this);
+//        faceNode.setParent(scene);
+//        augmentedImageMap.put(face, faceNode);
+//        arFragment.getArSceneView().getScene().addChild(node);
+//      }
+//    }
+//
+//    // Remove any AugmentedFaceNodes associated with an AugmentedFace that stopped tracking.
+//    Iterator<Map.Entry<AugmentedImage, AugmentedImageNode>> iter =
+//            augmentedImageMap.entrySet().iterator();
+//    while (iter.hasNext()) {
+//      Map.Entry<AugmentedImage, AugmentedImageNode> entry = iter.next();
+//      AugmentedImage face = entry.getKey();
+//      if (face.getTrackingState() == TrackingState.STOPPED) {
+//        AugmentedImageNode faceNode = entry.getValue();
+//        faceNode.setParent(null);
+//        iter.remove();
+//      }
+//    }
+//
+//  }
+
+
+//
+//
+    private void onUpdateFrame(FrameTime frameTime) {//反覆被呼叫
+      Log.d("leolog","Detecting");
+      if(isImageDetected) {
+        return;
+      }
     Frame frame = arFragment.getArSceneView().getArFrame();
-    Log.d("leolog","AAAAAA");
+    Log.d("leolog","OnUpdateFrame");
     // If there is no frame, just return.
     if (frame == null) {
       return;
@@ -97,6 +135,7 @@ public class AugmentedImageActivity extends AppCompatActivity {
     Collection<AugmentedImage> updatedAugmentedImages =
         frame.getUpdatedTrackables(AugmentedImage.class);
     for (AugmentedImage augmentedImage : updatedAugmentedImages) {
+      SnackbarHelper.getInstance().showMessage(this, augmentedImage.getTrackingState().toString());
       Log.d("leolog",augmentedImage.getTrackingState().toString());
       SnackbarHelper.getInstance().showMessage(this, augmentedImage.getTrackingState().toString());
       switch (augmentedImage.getTrackingState()) {
@@ -112,14 +151,12 @@ public class AugmentedImageActivity extends AppCompatActivity {
           fitToScanView.setVisibility(View.GONE);
          //搞懂如何反覆投放
           if (!augmentedImageMap.containsKey(augmentedImage)) {
-            SnackbarHelper.getInstance().showMessage(this, "showing");
-            node = new AugmentedImageNode(this);
+            //node = new AugmentedImageNode(this);
             this.image = augmentedImage;
-
-
             node.setImage(this.image);
             augmentedImageMap.put(this.image, node);
             arFragment.getArSceneView().getScene().addChild(node);
+            isImageDetected = true;
           }
           break;
 
@@ -131,7 +168,8 @@ public class AugmentedImageActivity extends AppCompatActivity {
   }
 
 
-  public void clearDetect(View view) {
+  public void clearDetect(View view) throws InterruptedException {
+
     Collection<Anchor> anchors = arFragment.getArSceneView().getSession().getAllAnchors();
 
     for(Anchor anchor : anchors) {
@@ -139,20 +177,46 @@ public class AugmentedImageActivity extends AppCompatActivity {
       Log.d("leolog2",anchor.getTrackingState().toString());
     }
 
-    fitToScanView.setVisibility(View.VISIBLE);
-
     Iterator<Map.Entry<AugmentedImage, AugmentedImageNode>> iter =
             augmentedImageMap.entrySet().iterator();
     while (iter.hasNext()) {
       Map.Entry<AugmentedImage, AugmentedImageNode> entry = iter.next();
-      AugmentedImage face = entry.getKey();
       AugmentedImageNode faceNode = entry.getValue();
       faceNode.setParent(null);
+     
       iter.remove();
       augmentedImageMap.remove(this.image);
-
+      arFragment.getArSceneView().getScene().removeChild(faceNode);
     }
+    fitToScanView.setVisibility(View.VISIBLE);
 
+    arFragment.getArSceneView().getScene().removeChild(this.node);
+    augmentedImageMap.clear();
+
+    this.isImageDetected  = false;
+
+//////////cancel////////////
+//    Collection<Anchor> anchors = arFragment.getArSceneView().getSession().getAllAnchors();
+//
+//    for(Anchor anchor : anchors) {
+//      anchor.detach();
+//      Log.d("leolog2",anchor.getTrackingState().toString());
+//    }
+//
+//    fitToScanView.setVisibility(View.VISIBLE);
+//
+//    Iterator<Map.Entry<AugmentedImage, AugmentedImageNode>> iter =
+//            augmentedImageMap.entrySet().iterator();
+//    while (iter.hasNext()) {
+//      Map.Entry<AugmentedImage, AugmentedImageNode> entry = iter.next();
+//      AugmentedImage face = entry.getKey();
+//      AugmentedImageNode faceNode = entry.getValue();
+//      faceNode.setParent(null);
+//      iter.remove();
+//      augmentedImageMap.remove(this.image);
+//
+//    }
+////////////// cancel end////////
     // augmentedImageMap.remove(this.image);  => 用來判定物件生成的所在位置的圖片，若把圖片清空的話，物件就無法被放入，可以從這邊觀察下手，想辦法讓他能重新識別
   // 想辦法如何再把其他圖片放入，讓物件能重新擺上去
 //    fitToScanView.setVisibility(View.VISIBLE);
