@@ -35,6 +35,7 @@ import com.google.ar.sceneform.math.Vector3;
 import com.google.ar.sceneform.rendering.FixedWidthViewSizer;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.rendering.ViewRenderable;
+import com.google.ar.sceneform.samples.ModelAction.ModelIntro;
 import com.google.ar.sceneform.samples.ModelAction.ModelList;
 
 import java.util.concurrent.CompletableFuture;
@@ -53,6 +54,9 @@ public class AugmentedImageNode extends AnchorNode {
   private static CompletableFuture<ModelRenderable> llCorner;
   private static CompletableFuture<ViewRenderable> CGUImageRenderable;
   private static CompletableFuture<ViewRenderable> CGUListRebderable;
+  private static CompletableFuture<ViewRenderable> CGUIndustryRebderable;
+  private static CompletableFuture<ViewRenderable> CGUMedicalRebderable;
+  private static CompletableFuture<ViewRenderable> CGUManageRebderable;
   private View ListLayout=null;
   private View InfoLayout = null;
   private String[] department_name=new String[]{"資工","電機","機械","電子","化材"};
@@ -78,17 +82,36 @@ public class AugmentedImageNode extends AnchorNode {
               .build();
     }
 
-    CGUImageRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.5f)).setView(context,R.layout.cguimage).build();
-    CGUListRebderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.25f)).setView(context,R.layout.cgulist).build();
-    CGUImageRenderable.thenAccept( (renderable) -> {
-          InfoLayout=renderable.getView();
-    });
-    CGUListRebderable.thenAccept(
-            (renderable) -> {
-                ListLayout=renderable.getView();
-                ModelList modelList = new ModelList(context,ListLayout,InfoLayout);
-                modelList.setListView((department_name));
-            });
+//    CGUImageRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.5f)).setView(context,R.layout.cguimage).build();
+//    CGUListRebderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.25f)).setView(context,R.layout.cgulist).build();
+//    CGUImageRenderable.thenAccept( (renderable) -> {
+//          InfoLayout=renderable.getView();
+//    });
+//    CGUListRebderable.thenAccept(
+//            (renderable) -> {
+//                ListLayout=renderable.getView();
+//                ModelList modelList = new ModelList(context,ListLayout,InfoLayout);
+//                modelList.setListView((department_name));
+//            });
+      CGUIndustryRebderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.5f)).setView(context,R.layout.industry_cgu).build();
+      CGUMedicalRebderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.5f)).setView(context,R.layout.manage_cgu).build();
+      CGUManageRebderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.5f)).setView(context,R.layout.medical_cgu).build();
+      CGUIndustryRebderable.thenAccept(
+                (renderable) -> {
+                   View view = renderable.getView();
+                    ModelIntro intro = new ModelIntro("industry",context,view);
+                });
+      CGUMedicalRebderable.thenAccept(
+              (renderable) -> {
+                  View view = renderable.getView();
+                  ModelIntro intro = new ModelIntro("medical",context,view);
+              });
+      CGUManageRebderable.thenAccept(
+              (renderable) -> {
+                  View view = renderable.getView();
+                  ModelIntro intro = new ModelIntro("manage",context,view);
+              });
+
   }
 
 
@@ -113,8 +136,9 @@ public class AugmentedImageNode extends AnchorNode {
     // Set the anchor based on the center of the image.
     setAnchor(this.anchor);
 
-    setModelRenderable(CGUListRebderable,1.5f * image.getExtentX(), 0.0f, 1f * image.getExtentZ());
-    setModelRenderable(CGUImageRenderable,-1f * image.getExtentX(), 0.0f, 1f * image.getExtentZ());
+    setModelRenderable(CGUManageRebderable,-3f * image.getExtentX(), 0f, 0.5f * image.getExtentZ());
+    setModelRenderable(CGUMedicalRebderable,0 * image.getExtentX(), 0f, 0.5f * image.getExtentZ());
+    setModelRenderable(CGUIndustryRebderable,3f * image.getExtentX(), 0f, 0.5f * image.getExtentZ());
 
 
   }
