@@ -13,7 +13,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 -->
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -37,22 +38,29 @@
       />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="4dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/ux_fragment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
+
         <Button
-            android:id="@+id/cancel"
+            android:id="@+id/listen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="clearDetect"
-            android:text="cancel" />
+            android:onClick="listen"
+            android:text="listen" />
 
         <Button
             android:id="@+id/button5"
-            android:onClick="Put"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="Put"
             android:text="Put" />
     </LinearLayout>
 
 
-</FrameLayout>
+</android.support.constraint.ConstraintLayout>

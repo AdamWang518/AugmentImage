@@ -16,12 +16,18 @@
 
 package com.google.ar.sceneform.samples.augmentedimage;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.ar.core.Anchor;
 import com.google.ar.core.AugmentedFace;
@@ -37,6 +43,7 @@ import com.google.ar.sceneform.ux.AugmentedFaceNode;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -53,7 +60,7 @@ import java.util.Map;
 public class AugmentedImageActivity extends AppCompatActivity {
 
   private ArFragment arFragment;
-  private ImageView fitToScanView;
+  private int SPEECH_REQUEST_CODE = 0;
   private boolean isImageDetected=false;
   // Augmented image and its associated center pose anchor, keyed by the augmented image in
   // the database.
@@ -66,9 +73,9 @@ public class AugmentedImageActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    this.btn = findViewById(R.id.cancel);
+
     arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.ux_fragment);
-    fitToScanView = findViewById(R.id.image_view_fit_to_scan);
+
     scene = arFragment.getArSceneView().getScene();
     node = new AugmentedImageNode(this);
 
@@ -79,7 +86,7 @@ public class AugmentedImageActivity extends AppCompatActivity {
   protected void onResume() {
     super.onResume();
     if (augmentedImageMap.isEmpty()) {
-      fitToScanView.setVisibility(View.VISIBLE);
+
       Log.d("leolog","OnResume");
     }
   }
@@ -148,7 +155,7 @@ public class AugmentedImageActivity extends AppCompatActivity {
 
         case TRACKING:
           // Have to switch to UI Thread to update View.
-          fitToScanView.setVisibility(View.GONE);
+
          //搞懂如何反覆投放
           if (!augmentedImageMap.containsKey(augmentedImage)) {
             //node = new AugmentedImageNode(this);
@@ -188,7 +195,7 @@ public class AugmentedImageActivity extends AppCompatActivity {
       augmentedImageMap.remove(this.image);
       arFragment.getArSceneView().getScene().removeChild(faceNode);
     }
-    fitToScanView.setVisibility(View.VISIBLE);
+
 
     arFragment.getArSceneView().getScene().removeChild(this.node);
     augmentedImageMap.clear();
@@ -244,5 +251,32 @@ public class AugmentedImageActivity extends AppCompatActivity {
 
   public void Put(View view) {
     arFragment.getArSceneView().getScene().addChild(node);
+  }
+
+  public void listen(View view) {
+    displaySpeechRecognizer();
+  }
+  private void displaySpeechRecognizer() {
+    Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+            RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+    startActivityForResult(intent, SPEECH_REQUEST_CODE);
+  }
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    if (requestCode == SPEECH_REQUEST_CODE && resultCode == RESULT_OK) {
+      List<String> results = data.getStringArrayListExtra(
+              RecognizerIntent.EXTRA_RESULTS);
+      String spokenText = results.get(0);
+      AlertDialog.Builder alert = new AlertDialog.Builder(this);
+      View view = View.inflate(this, R.layout.listencheck, null);
+      EditText editText = view.findViewById(R.id.listenText);
+      editText.setText(spokenText);
+      alert.setView(view);
+      alert.show();
+      Toast.makeText(this,spokenText,Toast.LENGTH_SHORT).show();
+
+    }
   }
 }

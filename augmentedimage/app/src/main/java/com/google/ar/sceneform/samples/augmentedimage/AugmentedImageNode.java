@@ -136,9 +136,10 @@ public class AugmentedImageNode extends AnchorNode {
     // Set the anchor based on the center of the image.
     setAnchor(this.anchor);
 
-    setModelRenderable(CGUManageRebderable,-3f * image.getExtentX(), 0f, 0.5f * image.getExtentZ());
-    setModelRenderable(CGUMedicalRebderable,0 * image.getExtentX(), 0f, 0.5f * image.getExtentZ());
-    setModelRenderable(CGUIndustryRebderable,3f * image.getExtentX(), 0f, 0.5f * image.getExtentZ());
+    //setModelRenderable(CGUManageRebderable,-3f * image.getExtentX(), 0f, 0.5f * image.getExtentZ());//x是左右，Y
+    setModelRenderable(CGUMedicalRebderable,0f, 0.1f, -1f * 0.13f);
+    //setModelRenderable(CGUIndustryRebderable,3f * image.getExtentX(), 0f, 0.5f * image.getExtentZ());
+    Log.d("Sizelog", String.valueOf(image.getExtentZ()));
 
 
   }
