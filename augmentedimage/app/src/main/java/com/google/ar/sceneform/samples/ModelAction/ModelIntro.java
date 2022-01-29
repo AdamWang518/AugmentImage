@@ -13,6 +13,7 @@ public class ModelIntro {
     Context context = null;
     TextView content = null;
     String type = "";
+
     public ModelIntro(String type,Context context ,View view){
         this.context = context;
         this.view = view;
