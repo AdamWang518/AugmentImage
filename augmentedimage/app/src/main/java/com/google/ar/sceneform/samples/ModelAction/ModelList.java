@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.ar.sceneform.samples.augmentedimage.R;
 
@@ -12,15 +13,15 @@ import java.util.ArrayList;
 
 public class ModelList {
 
-    View view = null;
-    View InfoLayout = null;
+    View parentView = null;
+    View contentView = null;
     Context context = null;
     String[] department_name = null;
     ListView listView = null;
-    public ModelList(Context context ,View view){
+    public ModelList(Context context ,View view,View contentView){
         this.context = context;
-        this.view = view;
-
+        this.parentView = view;
+        this.contentView=contentView;
         listView = view.findViewById(R.id.mList);
         ArrayList<dataModel> list = initList();
         ModelAdapter adapter = new ModelAdapter(context,list);
@@ -43,7 +44,9 @@ public class ModelList {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             Log.d("onItemClick","AAAAAAAA");
-            listView.setVisibility(View.INVISIBLE);
+            Toast.makeText(context,"ListItem",Toast.LENGTH_SHORT);
+            parentView.setVisibility(View.INVISIBLE);
+            contentView.setVisibility(View.VISIBLE);
         }
     };
 
