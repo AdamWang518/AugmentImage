@@ -140,11 +140,11 @@ public class AugmentedImageNode extends AnchorNode {
                                   View Contentview = ContentRenderable.getView();
                                   View view = renderable.getView();
                                   View childview=ChildRenderable.getView();
-                                  ModelList childList = new ModelList(context,childview,Contentview);
-                                  ModelList modelList = new ModelList(context,view,Contentview);
+
                                   ModelContent intro = new ModelContent(context,Contentview,view);
 
-
+                                  ModelList modelList = new ModelList(context,view,Contentview);
+                                  ModelList childList = new ModelList(context,childview,Contentview);
                               });
                           });
               });
