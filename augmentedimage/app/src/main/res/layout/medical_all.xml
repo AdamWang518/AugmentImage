@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="1023dp"
+    android:layout_height="639dp"
+    android:gravity="center"
+
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.5"
+        android:background="#FFFFFF"
+        android:gravity="center"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/textView2"
+            android:textColor="#000000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/cgu_manage_time"
+            android:textSize="30dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_weight="0.1"
+        android:textAlignment="center"
+        android:orientation="vertical"
+        android:paddingRight="10dp"
+        >
+
+        <at.markushi.ui.CircleButton
+            android:id="@+id/intro"
+            android:layout_width="100dip"
+            android:layout_height="100dip"
+            android:src="@drawable/presentation"
+            app:cb_color="#888988"
+            app:cb_pressedRingWidth="8dip" />
+
+        <at.markushi.ui.CircleButton
+            android:id="@+id/department"
+            android:layout_width="100dip"
+            android:layout_height="100dip"
+            android:src="@drawable/department"
+            app:cb_color="#888988"
+            app:cb_pressedRingWidth="8dip" />
+
+        <at.markushi.ui.CircleButton
+            android:id="@+id/overview"
+            android:layout_width="100dip"
+            android:layout_height="100dip"
+            android:src="@drawable/overview"
+            app:cb_color="#888988"
+            app:cb_pressedRingWidth="8dip" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.2"
+        android:orientation="vertical"
+        android:gravity="center"
+
+        android:background="#FFFFFF">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.2"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="#FFFFFF">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+
+</LinearLayout>

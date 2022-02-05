@@ -9,11 +9,12 @@
         android:id="@+id/button4"
         android:layout_width="105dp"
         android:layout_height="52dp"
+        android:layout_marginTop="56dp"
         android:text="送出"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.447"
         app:layout_constraintStart_toEndOf="@+id/listenText"
-        tools:layout_editor_absoluteY="61dp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/listenText"

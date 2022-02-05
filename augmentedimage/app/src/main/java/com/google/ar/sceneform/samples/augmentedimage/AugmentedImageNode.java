@@ -36,6 +36,7 @@ import com.google.ar.sceneform.math.Vector3;
 import com.google.ar.sceneform.rendering.FixedWidthViewSizer;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.rendering.ViewRenderable;
+import com.google.ar.sceneform.samples.ModelAction.ModelALL;
 import com.google.ar.sceneform.samples.ModelAction.ModelContent;
 import com.google.ar.sceneform.samples.ModelAction.ModelIntro;
 import com.google.ar.sceneform.samples.ModelAction.ModelList;
@@ -64,8 +65,8 @@ public class AugmentedImageNode extends AnchorNode {
   private static CompletableFuture<ViewRenderable> ListButtonRebderable;
   private static CompletableFuture<ViewRenderable> CGUMedicalRebderable;
   private static CompletableFuture<ViewRenderable> CGUManageRebderable;
-  private View ListLayout=null;
-  private View InfoLayout = null;
+  private static CompletableFuture<ViewRenderable> MedicalALLRebderable;
+
   private Anchor anchor = null;
   public AugmentedImageNode(Context context) {
     // Upon construction, start loading the models for the corners of the frame.
@@ -111,6 +112,7 @@ public class AugmentedImageNode extends AnchorNode {
       MedicalList=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.1f)).setView(context,R.layout.medical_list).build();
       MedicalChildList=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.1f)).setView(context,R.layout.medical_child_list).build();
       Content=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.1f)).setView(context,R.layout.content).build();
+      MedicalALLRebderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.5f)).setView(context,R.layout.medical_all).build();
       ListButtonRebderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.05f)).setView(context,R.layout.listbutton).build();
       CGUIndustryRebderable.thenAccept(
                 (renderable) -> {
@@ -132,6 +134,10 @@ public class AugmentedImageNode extends AnchorNode {
                   View view = renderable.getView();
                   ModelIntro intro = new ModelIntro("manage",context,view);
               });
+      MedicalALLRebderable.thenAccept((renderable) -> {
+          View view = renderable.getView();
+          ModelALL intro = new ModelALL("manage",context,view);
+      });
       MedicalList.thenAccept(
               (renderable) -> {
                   Content.thenAccept(
@@ -179,10 +185,11 @@ public class AugmentedImageNode extends AnchorNode {
     this.anchor = image.createAnchor(image.getCenterPose());
     // Set the anchor based on the center of the image.
     setAnchor(this.anchor);
-    setModelRenderable(ListButtonRebderable,0f,0.1f, -1f * 0.13f);
-    setModelRenderable(Content,-0.085f,0.1f, -1f * 0.13f);
-    setModelRenderable(MedicalList,0.085f,0.1f, -1f * 0.13f);
-    setModelRenderable(MedicalChildList,0.2f,0.1f, -1f * 0.13f);
+    //setModelRenderable(ListButtonRebderable,0f,0.1f, -1f * 0.13f);
+    setModelRenderable(MedicalALLRebderable,0f,0.1f, -1f * 0.13f);
+//    setModelRenderable(Content,-0.085f,0.1f, -1f * 0.13f);
+//    setModelRenderable(MedicalList,0.085f,0.1f, -1f * 0.13f);
+//    setModelRenderable(MedicalChildList,0.2f,0.1f, -1f * 0.13f);
     //setModelRenderable(CGUManageRebderable,-3f * image.getExtentX(), 0f, 0.5f * image.getExtentZ());//x是左右，Y
     //setModelRenderable(CGUMedicalRebderable,0f, 0.1f, -1f * 0.13f);
     // setModelRenderable2(house,0,0,0);
