@@ -112,7 +112,7 @@ public class AugmentedImageNode extends AnchorNode {
       MedicalList=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.1f)).setView(context,R.layout.medical_list).build();
       MedicalChildList=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.1f)).setView(context,R.layout.medical_child_list).build();
       Content=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.1f)).setView(context,R.layout.content).build();
-      MedicalALLRebderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.5f)).setView(context,R.layout.medical_all).build();
+      MedicalALLRebderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.8f)).setView(context,R.layout.medical_all).build();
       ListButtonRebderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.05f)).setView(context,R.layout.listbutton).build();
       CGUIndustryRebderable.thenAccept(
                 (renderable) -> {

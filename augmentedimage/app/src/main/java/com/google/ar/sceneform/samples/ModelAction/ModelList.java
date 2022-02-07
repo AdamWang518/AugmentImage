@@ -47,6 +47,8 @@ public class ModelList {
             Toast.makeText(context,"ListItem",Toast.LENGTH_SHORT);
             parentView.setVisibility(View.INVISIBLE);
             contentView.setVisibility(View.VISIBLE);
+
+
         }
     };
 

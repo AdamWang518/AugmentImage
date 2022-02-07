@@ -6,19 +6,20 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/contentItem"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginEnd="4dp"
+        android:background="#C9C9C8"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:layout_editor_absoluteY="1dp"
-        android:background="#FFFFFF"
-        >
+        tools:layout_editor_absoluteY="1dp">
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="0.3"
-            android:layout_height="100dp">
+            android:layout_height="100dp"
+            android:layout_weight="0.3">
+
             <ImageView
                 android:id="@+id/img_item"
                 android:layout_width="wrap_content"
@@ -30,24 +31,25 @@
 
         <LinearLayout
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="0.7"
-            android:orientation="vertical"
-            android:layout_height="match_parent">
+            android:orientation="vertical">
+
             <TextView
                 android:id="@+id/title_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
                 android:layout_weight="1"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textColor="#888988" />
 
             <TextView
                 android:id="@+id/author_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
                 android:layout_weight="1"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textColor="#888988" />
         </LinearLayout>
 
     </LinearLayout>

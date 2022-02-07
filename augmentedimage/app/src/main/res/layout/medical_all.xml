@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="1023dp"
-    android:layout_height="639dp"
+    android:layout_width="1278dp"
+    android:layout_height="798dp"
     android:gravity="center"
 
     android:orientation="horizontal">
@@ -41,7 +41,7 @@
             android:layout_width="100dip"
             android:layout_height="100dip"
             android:src="@drawable/presentation"
-            app:cb_color="#888988"
+            app:cb_color="#C9C9C8"
             app:cb_pressedRingWidth="8dip" />
 
         <at.markushi.ui.CircleButton
@@ -49,7 +49,7 @@
             android:layout_width="100dip"
             android:layout_height="100dip"
             android:src="@drawable/department"
-            app:cb_color="#888988"
+            app:cb_color="#C9C9C8"
             app:cb_pressedRingWidth="8dip" />
 
         <at.markushi.ui.CircleButton
@@ -57,7 +57,7 @@
             android:layout_width="100dip"
             android:layout_height="100dip"
             android:src="@drawable/overview"
-            app:cb_color="#888988"
+            app:cb_color="#C9C9C8"
             app:cb_pressedRingWidth="8dip" />
     </LinearLayout>
     <LinearLayout
