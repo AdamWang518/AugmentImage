@@ -45,11 +45,11 @@
             android:text="listen" />
 
         <Button
-            android:id="@+id/button5"
+            android:id="@+id/restart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="Put"
-            android:text="Put" />
+            android:onClick="restart"
+            android:text="restart" />
     </LinearLayout>
 
 

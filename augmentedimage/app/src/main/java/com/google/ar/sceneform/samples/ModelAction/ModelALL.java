@@ -1,8 +1,11 @@
 package com.google.ar.sceneform.samples.ModelAction;
 
+
+
 import com.google.ar.sceneform.samples.augmentedimage.R;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -19,6 +22,7 @@ public class ModelALL {
     ArrayList<dataModel> introlist = introList();
     ArrayList<dataModel> departmentList = departmentList();
     ArrayList<dataModel> overviewList = overviewList();
+    ArrayList<dataModel> childList=childList();
     ArrayList<dataModel> selectedList = null;
     int buttonID=0;
     public ModelALL(String type,Context context ,View view){
@@ -34,6 +38,7 @@ public class ModelALL {
         department.setOnClickListener(buttonlistener);
         overview.setOnClickListener(buttonlistener);
         list1.setOnItemClickListener(itemClickListener);
+        list2.setOnItemClickListener(list2ClickListener);
         list1.setVisibility(View.INVISIBLE);
         list2.setVisibility(View.INVISIBLE);
         content.setVisibility(View.INVISIBLE);
@@ -45,7 +50,14 @@ public class ModelALL {
         list.add(new dataModel("https://i.pinimg.com/236x/e2/d0/af/e2d0afea804b250800fa2d7cdb8b5e1b.jpg","成立時間","測試3"));
         return  list;
     }
-
+    private ArrayList<dataModel>    childList(){
+        ArrayList<dataModel> list = new ArrayList<>();
+        list.add(new dataModel("https://miro.medium.com/max/676/1*XEgA1TTwXa5AvAdw40GFow.png","項目1","測試1"));
+        list.add(new dataModel("https://i.pinimg.com/236x/e2/d0/af/e2d0afea804b250800fa2d7cdb8b5e1b.jpg","項目2","測試2"));
+        list.add(new dataModel("https://i.pinimg.com/236x/e2/d0/af/e2d0afea804b250800fa2d7cdb8b5e1b.jpg","項目3","測試3"));
+        list.add(new dataModel("https://i.pinimg.com/236x/e2/d0/af/e2d0afea804b250800fa2d7cdb8b5e1b.jpg","項目4","測試5"));
+        return  list;
+    }
     private ArrayList<dataModel> departmentList(){
         ArrayList<dataModel> list = new ArrayList<>();
         list.add(new dataModel("https://miro.medium.com/max/676/1*XEgA1TTwXa5AvAdw40GFow.png","公告","測試1"));
@@ -179,6 +191,60 @@ public class ModelALL {
             TextView author =list1.getChildAt(j).findViewById(R.id.author_item);
             title.setTextColor(0xFFFFFFFF);
             author.setTextColor(0xFFFFFFFF);
+
+            ModelAdapter adapter = new ModelAdapter(context,childList);
+            list2.setAdapter(adapter);
+            list2.setVisibility(View.VISIBLE);
+        }
+    };
+    public AdapterView.OnItemClickListener list2ClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            for (int j=0;j<childList.size();j++) {
+                View v = list2.getChildAt(j);
+                v.findViewById(R.id.contentItem).setBackgroundColor(0xFFC9C9C8);
+                TextView title = v.findViewById(R.id.title_item);
+                TextView author =v.findViewById(R.id.author_item);
+                title.setTextColor(0xFF888988);
+                author.setTextColor(0xFF888988);
+            }
+            list2.getChildAt(i).findViewById(R.id.contentItem).setBackgroundColor(0xFFD59B00);
+            TextView title = list2.getChildAt(i).findViewById(R.id.title_item);
+            TextView author =list2.getChildAt(i).findViewById(R.id.author_item);
+            title.setTextColor(0xFFFFFFFF);
+            author.setTextColor(0xFFFFFFFF);
+            String text="";
+            switch (title.getText().toString())
+            {
+                case "項目1":
+                    text = context.getResources().getString(R.string.cgu_industry_characteristic).toString();
+                    Log.d("content",text);
+                    content.setText(text);
+                    content.setTextColor(0xffffffff);
+                    content.setVisibility(View.VISIBLE);
+                    break;
+                case "項目2":
+                    text = context.getResources().getString(R.string.cgu_manage_characteristic).toString();
+                    Log.d("content",text);
+                    content.setText(text);
+                    content.setTextColor(0xffffffff);
+                    content.setVisibility(View.VISIBLE);
+                    break;
+                case "項目3":
+                    text = context.getResources().getString(R.string.cgu_medical_characteristic).toString();
+                    Log.d("content",text);
+                    content.setText(text);
+                    content.setTextColor(0xffffffff);
+                    content.setVisibility(View.VISIBLE);
+                    break;
+                case "項目4":
+                    text = context.getResources().getString(R.string.cgu_medical_time).toString();
+                    Log.d("content",text);
+                    content.setText(text);
+                    content.setTextColor(0xffffffff);
+                    content.setVisibility(View.VISIBLE);
+                    break;
+            }
         }
     };
 }
