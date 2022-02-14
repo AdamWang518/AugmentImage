@@ -8,6 +8,7 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -19,6 +20,7 @@ public class ModelALL {
     at.markushi.ui.CircleButton intro,department,overview;
     ListView list1 = null,list2 = null;
     TextView content=null;
+    LinearLayout allcontent=null;
     ArrayList<dataModel> introlist = introList();
     ArrayList<dataModel> departmentList = departmentList();
     ArrayList<dataModel> overviewList = overviewList();
@@ -34,6 +36,7 @@ public class ModelALL {
         list1=this.view.findViewById(R.id.list);
         list2=this.view.findViewById(R.id.child_list);
         content=this.view.findViewById(R.id.content);
+        allcontent=this.view.findViewById(R.id.allcontent);
         intro.setOnClickListener(buttonlistener);
         department.setOnClickListener(buttonlistener);
         overview.setOnClickListener(buttonlistener);
@@ -41,7 +44,7 @@ public class ModelALL {
         list2.setOnItemClickListener(list2ClickListener);
         list1.setVisibility(View.INVISIBLE);
         list2.setVisibility(View.INVISIBLE);
-        content.setVisibility(View.INVISIBLE);
+        allcontent.setVisibility(View.INVISIBLE);
     }
     private ArrayList<dataModel> introList(){
         ArrayList<dataModel> list = new ArrayList<>();
@@ -86,6 +89,8 @@ public class ModelALL {
                             ModelAdapter adapter = new ModelAdapter(context,introlist);
                             list1.setAdapter(adapter);
                             selectedList = introlist;
+                            list2.setVisibility(View.INVISIBLE);
+                            allcontent.setVisibility(View.INVISIBLE);
                         }
                         else if(buttonID==intro.getId()&&list1.getVisibility()==View.VISIBLE)
                         {
@@ -94,6 +99,7 @@ public class ModelALL {
                             overview.setColor(0xFFC9C9C8);
                             list1.setVisibility(View.INVISIBLE);
                             list2.setVisibility(View.INVISIBLE);
+                            allcontent.setVisibility(View.INVISIBLE);
                         }
                         else if(buttonID==intro.getId()&&list1.getVisibility()==View.INVISIBLE)
                         {
@@ -118,7 +124,8 @@ public class ModelALL {
                             ModelAdapter adapter = new ModelAdapter(context,departmentList);
                             list1.setAdapter(adapter);
                             selectedList = departmentList;
-
+                            list2.setVisibility(View.INVISIBLE);
+                            allcontent.setVisibility(View.INVISIBLE);
                         }
                         else if(buttonID==department.getId()&&list1.getVisibility()==View.VISIBLE)
                         {
@@ -127,6 +134,7 @@ public class ModelALL {
                             overview.setColor(0xFFC9C9C8);
                             list1.setVisibility(View.INVISIBLE);
                             list2.setVisibility(View.INVISIBLE);
+                            allcontent.setVisibility(View.INVISIBLE);
                         }
                         else if(buttonID==department.getId()&&list1.getVisibility()==View.INVISIBLE)
                         {
@@ -151,6 +159,8 @@ public class ModelALL {
                             ModelAdapter adapter = new ModelAdapter(context,overviewList);
                             list1.setAdapter(adapter);
                             selectedList = overviewList;
+                            list2.setVisibility(View.INVISIBLE);
+                            allcontent.setVisibility(View.INVISIBLE);
                         }
                         else if(buttonID==overview.getId()&&list1.getVisibility()==View.VISIBLE)
                         {
@@ -159,6 +169,7 @@ public class ModelALL {
                             overview.setColor(0xFFC9C9C8);
                             list1.setVisibility(View.INVISIBLE);
                             list2.setVisibility(View.INVISIBLE);
+                            allcontent.setVisibility(View.INVISIBLE);
                         }
                         else if(buttonID==overview.getId()&&list1.getVisibility()==View.INVISIBLE)
                         {
@@ -191,7 +202,6 @@ public class ModelALL {
             TextView author =list1.getChildAt(j).findViewById(R.id.author_item);
             title.setTextColor(0xFFFFFFFF);
             author.setTextColor(0xFFFFFFFF);
-
             ModelAdapter adapter = new ModelAdapter(context,childList);
             list2.setAdapter(adapter);
             list2.setVisibility(View.VISIBLE);
@@ -221,28 +231,28 @@ public class ModelALL {
                     Log.d("content",text);
                     content.setText(text);
                     content.setTextColor(0xffffffff);
-                    content.setVisibility(View.VISIBLE);
+                    allcontent.setVisibility(View.VISIBLE);
                     break;
                 case "項目2":
                     text = context.getResources().getString(R.string.cgu_manage_characteristic).toString();
                     Log.d("content",text);
                     content.setText(text);
                     content.setTextColor(0xffffffff);
-                    content.setVisibility(View.VISIBLE);
+                    allcontent.setVisibility(View.VISIBLE);
                     break;
                 case "項目3":
                     text = context.getResources().getString(R.string.cgu_medical_characteristic).toString();
                     Log.d("content",text);
                     content.setText(text);
                     content.setTextColor(0xffffffff);
-                    content.setVisibility(View.VISIBLE);
+                    allcontent.setVisibility(View.VISIBLE);
                     break;
                 case "項目4":
                     text = context.getResources().getString(R.string.cgu_medical_time).toString();
                     Log.d("content",text);
                     content.setText(text);
                     content.setTextColor(0xffffffff);
-                    content.setVisibility(View.VISIBLE);
+                    allcontent.setVisibility(View.VISIBLE);
                     break;
             }
         }
