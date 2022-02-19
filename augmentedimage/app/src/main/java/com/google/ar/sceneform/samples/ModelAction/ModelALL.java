@@ -45,14 +45,14 @@ public class ModelALL {
         list1.setVisibility(View.INVISIBLE);
         list2.setVisibility(View.INVISIBLE);
         allcontent.setVisibility(View.INVISIBLE);
-    }
-    private ArrayList<dataModel> introList(){
+    }    private ArrayList<dataModel> introList(){
         ArrayList<dataModel> list = new ArrayList<>();
         list.add(new dataModel("https://miro.medium.com/max/676/1*XEgA1TTwXa5AvAdw40GFow.png","發展目標","測試1"));
         list.add(new dataModel("https://i.pinimg.com/236x/e2/d0/af/e2d0afea804b250800fa2d7cdb8b5e1b.jpg","特色","測試2"));
         list.add(new dataModel("https://i.pinimg.com/236x/e2/d0/af/e2d0afea804b250800fa2d7cdb8b5e1b.jpg","成立時間","測試3"));
         return  list;
     }
+
     private ArrayList<dataModel>    childList(){
         ArrayList<dataModel> list = new ArrayList<>();
         list.add(new dataModel("https://miro.medium.com/max/676/1*XEgA1TTwXa5AvAdw40GFow.png","項目1","測試1"));
