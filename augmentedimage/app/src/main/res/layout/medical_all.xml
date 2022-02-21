@@ -57,7 +57,7 @@
             android:id="@+id/intro"
             android:layout_width="100dip"
             android:layout_height="100dip"
-            android:src="@drawable/presentation"
+            android:src="@drawable/presentationdark"
             app:cb_color="#C9C9C8"
             app:cb_pressedRingWidth="8dip" />
 
@@ -65,7 +65,7 @@
             android:id="@+id/department"
             android:layout_width="100dip"
             android:layout_height="100dip"
-            android:src="@drawable/department"
+            android:src="@drawable/departmentdark"
             app:cb_color="#C9C9C8"
             app:cb_pressedRingWidth="8dip" />
 
@@ -73,7 +73,7 @@
             android:id="@+id/overview"
             android:layout_width="100dip"
             android:layout_height="100dip"
-            android:src="@drawable/overview"
+            android:src="@drawable/overviewdark"
             app:cb_color="#C9C9C8"
             app:cb_pressedRingWidth="8dip" />
     </LinearLayout>

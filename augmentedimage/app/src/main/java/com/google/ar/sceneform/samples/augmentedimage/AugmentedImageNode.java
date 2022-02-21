@@ -49,10 +49,9 @@ public class AugmentedImageNode extends AnchorNode {
   private static CompletableFuture<ModelRenderable> llCorner;
 
   private static CompletableFuture<ViewRenderable> MedicalALLRenderable;
-    private static CompletableFuture<ViewRenderable> IndustryALLRenderable;
-    private static CompletableFuture<ViewRenderable> ManageALLRenderable;
+
   private static CompletableFuture<ViewRenderable> DepartmentButtonRenderable;
-    private   View medicalview,Industryview,manageview;
+  private   View medicalview;
   private Anchor anchor = null;
   public AugmentedImageNode(Context context) {
     // Upon construction, start loading the models for the corners of the frame.
@@ -90,10 +89,9 @@ public class AugmentedImageNode extends AnchorNode {
 //            });
 
 
-      MedicalALLRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.8f)).setView(context,R.layout.medical_all).build();
-      IndustryALLRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.8f)).setView(context,R.layout.medical_all).build();
-      ManageALLRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.8f)).setView(context,R.layout.medical_all).build();
-      DepartmentButtonRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.5f)).setView(context,R.layout.department_button).build();
+      MedicalALLRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.5f)).setView(context,R.layout.medical_all).build();
+
+      DepartmentButtonRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.3f)).setView(context,R.layout.department_button).build();
       DepartmentButtonRenderable.thenAccept((renderable) -> {
           View view = renderable.getView();
           MedicalALLRenderable.thenAccept((Medicalrenderable) -> {
@@ -101,19 +99,11 @@ public class AugmentedImageNode extends AnchorNode {
               ModelALL medicalALL = new ModelALL("medical",context,medicalview);
 
           });
-          IndustryALLRenderable.thenAccept((Industryrenderable) -> {
-               Industryview = Industryrenderable.getView();
-              ModelALL medicalALL = new ModelALL("medical",context,Industryview);
 
-          });
-          ManageALLRenderable.thenAccept((Managerenderable) -> {
-               manageview = Managerenderable.getView();
-              ModelALL medicalALL = new ModelALL("medical",context,manageview);
 
-          });
-
-          DepartmentButton intro = new DepartmentButton(context,manageview,medicalview,Industryview,view);
+          DepartmentButton intro = new DepartmentButton(context,medicalview,view);
       });
+
 //      Content.thenAccept(
 //              (ContentRenderable) -> {
 //                  View Contentview = ContentRenderable.getView();
@@ -146,9 +136,11 @@ public class AugmentedImageNode extends AnchorNode {
     // Set the anchor based on the center of the image.
     setAnchor(this.anchor);
     //setModelRenderable(ListButtonRebderable,0f,0.1f, -1f * 0.13f);
-    setModelRenderable(MedicalALLRenderable,0f,0.1f, -1f * 0.13f);
-    setModelRenderable(IndustryALLRenderable,1f* 0.13f,0.1f, -1f * 0.13f);
-    setModelRenderable(ManageALLRenderable,-1f* 0.13f,0.1f, -1f * 0.13f);
+    setModelRenderable(MedicalALLRenderable,0f,0.05f, -1f * 0.13f);
+
+    //setModelRenderable(IndustryALLRenderable,1f* 0.13f,0.05f, -1f * 0.13f);
+   // setModelRenderable(ManageALLRenderable,-1f* 0.13f,0.05f, -1f * 0.13f);
+
     setButtonRenderable(DepartmentButtonRenderable,0.3f * 0.13f,0,1f * 0.13f);
     //setModelRenderable(CGUManageRebderable,-3f * image.getExtentX(), 0f, 0.5f * image.getExtentZ());//x是左右，Y
     Log.d("Sizelog", String.valueOf(image.getExtentZ()));

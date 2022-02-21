@@ -5,44 +5,47 @@ import android.widget.Button;
 
 import com.google.ar.sceneform.samples.augmentedimage.R;
 public class DepartmentButton {
-    View view = null,manageview= null,medicalview= null,Industryview = null;
+    View view = null,medicalview= null;
     Context context = null;
     Button manage,medical,industry;
-    public DepartmentButton( Context context ,View manageview,View medicalview,View Industryview ,View view){
+    public DepartmentButton( Context context,View medicalview,View view){
         this.context = context;
         this.view = view;
-        this.manageview=manageview;
         this.medicalview=medicalview;
-        this.Industryview=Industryview;
         manage=this.view.findViewById(R.id.manage_button);
         medical=this.view.findViewById(R.id.medical_button);
         industry=this.view.findViewById(R.id.industry_button);
         manage.setOnClickListener(buttonlistener);
         medical.setOnClickListener(buttonlistener);
         industry.setOnClickListener(buttonlistener);
-        manageview.setVisibility(View.INVISIBLE);
         medicalview.setVisibility(View.INVISIBLE);
-        Industryview.setVisibility(View.INVISIBLE);
     }
     View.OnClickListener buttonlistener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+
             switch (view.getId())
             {
                 case R.id.manage_button:
-                    manageview.setVisibility(View.VISIBLE);
+                    manage.setBackgroundColor(0xffD59B00);
+                    industry.setBackgroundColor(0xFFC9C9C8);
+                    medical.setBackgroundColor(0xFFC9C9C8);
                     medicalview.setVisibility(View.INVISIBLE);
-                    Industryview.setVisibility(View.INVISIBLE);
+
                     break;
                 case R.id.industry_button:
-                    manageview.setVisibility(View.INVISIBLE);
+                    manage.setBackgroundColor(0xFFC9C9C8);
+                    industry.setBackgroundColor(0xffD59B00);
+                    medical.setBackgroundColor(0xFFC9C9C8);
                     medicalview.setVisibility(View.INVISIBLE);
-                    Industryview.setVisibility(View.VISIBLE);
+
                     break;
                 case R.id.medical_button:
-                    manageview.setVisibility(View.INVISIBLE);
+                    medical.setBackgroundColor(0xffD59B00);
+                    industry.setBackgroundColor(0xFFC9C9C8);
+                    manage.setBackgroundColor(0xFFC9C9C8);
                     medicalview.setVisibility(View.VISIBLE);
-                    Industryview.setVisibility(View.INVISIBLE);
+
                     break;
             }
         }

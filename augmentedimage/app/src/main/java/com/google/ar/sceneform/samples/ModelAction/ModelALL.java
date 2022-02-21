@@ -85,6 +85,9 @@ public class ModelALL {
                             intro.setColor(0xFFD59B00);
                             department.setColor(0xFFC9C9C8);
                             overview.setColor(0xFFC9C9C8);
+                            intro.setImageResource(R.drawable.presentation);
+                            department.setImageResource(R.drawable.departmentdark);
+                            overview.setImageResource(R.drawable.overviewdark);
                             list1.setVisibility(View.VISIBLE);
                             ModelAdapter adapter = new ModelAdapter(context,introlist);
                             list1.setAdapter(adapter);
@@ -97,6 +100,9 @@ public class ModelALL {
                             intro.setColor(0xFFC9C9C8);
                             department.setColor(0xFFC9C9C8);
                             overview.setColor(0xFFC9C9C8);
+                            intro.setImageResource(R.drawable.presentationdark);
+                            department.setImageResource(R.drawable.departmentdark);
+                            overview.setImageResource(R.drawable.overviewdark);
                             list1.setVisibility(View.INVISIBLE);
                             list2.setVisibility(View.INVISIBLE);
                             allcontent.setVisibility(View.INVISIBLE);
@@ -107,6 +113,9 @@ public class ModelALL {
                             intro.setColor(0xFFD59B00);
                             department.setColor(0xFFC9C9C8);
                             overview.setColor(0xFFC9C9C8);
+                            intro.setImageResource(R.drawable.presentation);
+                            department.setImageResource(R.drawable.departmentdark);
+                            overview.setImageResource(R.drawable.overviewdark);
                             list1.setVisibility(View.VISIBLE);
                             ModelAdapter adapter = new ModelAdapter(context,introlist);
                             list1.setAdapter(adapter);
@@ -120,6 +129,9 @@ public class ModelALL {
                             intro.setColor(0xFFC9C9C8);
                             department.setColor(0xFFD59B00);
                             overview.setColor(0xFFC9C9C8);
+                            intro.setImageResource(R.drawable.presentationdark);
+                            department.setImageResource(R.drawable.department);
+                            overview.setImageResource(R.drawable.overviewdark);
                             list1.setVisibility(View.VISIBLE);
                             ModelAdapter adapter = new ModelAdapter(context,departmentList);
                             list1.setAdapter(adapter);
@@ -132,6 +144,9 @@ public class ModelALL {
                             intro.setColor(0xFFC9C9C8);
                             department.setColor(0xFFC9C9C8);
                             overview.setColor(0xFFC9C9C8);
+                            intro.setImageResource(R.drawable.presentationdark);
+                            department.setImageResource(R.drawable.departmentdark);
+                            overview.setImageResource(R.drawable.overviewdark);
                             list1.setVisibility(View.INVISIBLE);
                             list2.setVisibility(View.INVISIBLE);
                             allcontent.setVisibility(View.INVISIBLE);
@@ -142,6 +157,9 @@ public class ModelALL {
                             intro.setColor(0xFFC9C9C8);
                             department.setColor(0xFFD59B00);
                             overview.setColor(0xFFC9C9C8);
+                            intro.setImageResource(R.drawable.presentationdark);
+                            department.setImageResource(R.drawable.department);
+                            overview.setImageResource(R.drawable.overviewdark);
                             list1.setVisibility(View.VISIBLE);
                             ModelAdapter adapter = new ModelAdapter(context,departmentList);
                             list1.setAdapter(adapter);
@@ -155,6 +173,9 @@ public class ModelALL {
                             intro.setColor(0xFFC9C9C8);
                             department.setColor(0xFFC9C9C8);
                             overview.setColor(0xFFD59B00);
+                            intro.setImageResource(R.drawable.presentationdark);
+                            department.setImageResource(R.drawable.departmentdark);
+                            overview.setImageResource(R.drawable.overview);
                             list1.setVisibility(View.VISIBLE);
                             ModelAdapter adapter = new ModelAdapter(context,overviewList);
                             list1.setAdapter(adapter);
@@ -167,6 +188,9 @@ public class ModelALL {
                             intro.setColor(0xFFC9C9C8);
                             department.setColor(0xFFC9C9C8);
                             overview.setColor(0xFFC9C9C8);
+                            intro.setImageResource(R.drawable.presentationdark);
+                            department.setImageResource(R.drawable.departmentdark);
+                            overview.setImageResource(R.drawable.overviewdark);
                             list1.setVisibility(View.INVISIBLE);
                             list2.setVisibility(View.INVISIBLE);
                             allcontent.setVisibility(View.INVISIBLE);
@@ -177,6 +201,9 @@ public class ModelALL {
                             intro.setColor(0xFFC9C9C8);
                             department.setColor(0xFFC9C9C8);
                             overview.setColor(0xFFD59B00);
+                            intro.setImageResource(R.drawable.presentationdark);
+                            department.setImageResource(R.drawable.departmentdark);
+                            overview.setImageResource(R.drawable.overview);
                             list1.setVisibility(View.VISIBLE);
                             ModelAdapter adapter = new ModelAdapter(context,overviewList);
                             list1.setAdapter(adapter);
