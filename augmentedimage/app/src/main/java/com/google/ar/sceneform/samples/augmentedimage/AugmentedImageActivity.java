@@ -143,7 +143,7 @@ public class AugmentedImageActivity extends AppCompatActivity {
         frame.getUpdatedTrackables(AugmentedImage.class);
     for (AugmentedImage augmentedImage : updatedAugmentedImages) {
       SnackbarHelper.getInstance().showMessage(this, augmentedImage.getTrackingState().toString());
-      Log.d("leolog",augmentedImage.getTrackingState().toString());
+      //Log.d("leolog",augmentedImage.getTrackingState().toString());
       SnackbarHelper.getInstance().showMessage(this, augmentedImage.getTrackingState().toString());
       switch (augmentedImage.getTrackingState()) {
         case PAUSED:

@@ -29,6 +29,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="false"
         tools:ignore="GoogleAppIndexingWarning">
+        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
         <activity
             android:name=".AugmentedImageActivity"
             android:configChanges="orientation|screenSize"
