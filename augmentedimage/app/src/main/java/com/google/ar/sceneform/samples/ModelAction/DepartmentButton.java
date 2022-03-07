@@ -50,6 +50,9 @@ public class DepartmentButton {
                     manage.setBackgroundColor(0xffD59B00);
                     industry.setBackgroundColor(0xFFC9C9C8);
                     medical.setBackgroundColor(0xFFC9C9C8);
+                    manage.setTextColor(0xFFFFFFFF);
+                    industry.setTextColor(0xFF888988);
+                    medical.setTextColor(0xFF888988);
                     medicalview.setVisibility(View.VISIBLE);
                     departmentChange(0xFFC9C9C8);
                     Institude="管理學院";
@@ -58,6 +61,9 @@ public class DepartmentButton {
                     manage.setBackgroundColor(0xFFC9C9C8);
                     industry.setBackgroundColor(0xffD59B00);
                     medical.setBackgroundColor(0xFFC9C9C8);
+                    manage.setTextColor(0xFF888988);
+                    industry.setTextColor(0xFFFFFFFF);
+                    medical.setTextColor(0xFF888988);
                     medicalview.setVisibility(View.VISIBLE);
                     departmentChange(0xFFC9C9C8);
                     Institude="工學院";
@@ -66,6 +72,9 @@ public class DepartmentButton {
                     medical.setBackgroundColor(0xffD59B00);
                     industry.setBackgroundColor(0xFFC9C9C8);
                     manage.setBackgroundColor(0xFFC9C9C8);
+                    manage.setTextColor(0xFF888988);
+                    industry.setTextColor(0xFF888988);
+                    medical.setTextColor(0xFFFFFFFF);
                     medicalview.setVisibility(View.VISIBLE);
                     departmentChange(0xFFC9C9C8);
                     Institude="醫學院";
