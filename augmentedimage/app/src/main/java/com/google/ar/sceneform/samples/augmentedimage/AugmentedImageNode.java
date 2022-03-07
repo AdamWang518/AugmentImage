@@ -94,14 +94,12 @@ public class AugmentedImageNode extends AnchorNode {
       DepartmentButtonRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.3f)).setView(context,R.layout.department_button).build();
       DepartmentButtonRenderable.thenAccept((renderable) -> {
           View view = renderable.getView();
+          DepartmentButton intro = new DepartmentButton(context,view);
           MedicalALLRenderable.thenAccept((Medicalrenderable) -> {
                medicalview = Medicalrenderable.getView();
-              ModelALL medicalALL = new ModelALL("medical",context,medicalview);
-
+               ModelALL medicalALL = new ModelALL("medical",context,medicalview,view);
           });
 
-
-          DepartmentButton intro = new DepartmentButton(context,medicalview,view);
       });
 
 //      Content.thenAccept(

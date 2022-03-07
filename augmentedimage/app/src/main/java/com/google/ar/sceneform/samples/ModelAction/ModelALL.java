@@ -2,34 +2,53 @@ package com.google.ar.sceneform.samples.ModelAction;
 
 
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.ar.sceneform.samples.Models.DepartmentModel;
 import com.google.ar.sceneform.samples.augmentedimage.R;
 
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class ModelALL {
+    String Institude="醫學院";
+    String TypeID="180C275A-0AA8-4C47-B940-8E675FBB7C8B";
     View view = null;
+    View introview;
     Context context = null;
     at.markushi.ui.CircleButton intro,department,overview;
     ListView list1 = null,list2 = null;
     TextView content=null;
+    Button manage,medical,industry;
     LinearLayout allcontent=null;
     ArrayList<dataModel> introlist = introList();
     ArrayList<dataModel> departmentList = departmentList();
     ArrayList<dataModel> overviewList = overviewList();
     ArrayList<dataModel> childList=childList();
     ArrayList<dataModel> selectedList = null;
+    RequestQueue mQueue =null;
     int buttonID=0;
-    public ModelALL(String type,Context context ,View view){
+    public ModelALL(String type,Context context ,View view,View introview){
         this.context = context;
         this.view = view;
+        this.introview=introview;
+        this.mQueue = Volley.newRequestQueue(context);
         intro=this.view.findViewById(R.id.intro);
         overview=this.view.findViewById(R.id.overview);
         department=this.view.findViewById(R.id.department);
@@ -45,6 +64,14 @@ public class ModelALL {
         list1.setVisibility(View.INVISIBLE);
         list2.setVisibility(View.INVISIBLE);
         allcontent.setVisibility(View.INVISIBLE);
+
+        manage=this.introview.findViewById(R.id.manage_button);
+        medical=this.introview.findViewById(R.id.medical_button);
+        industry=this.introview.findViewById(R.id.industry_button);
+        manage.setOnClickListener(deparmentbuttonlistener);
+        medical.setOnClickListener(deparmentbuttonlistener);
+        industry.setOnClickListener(deparmentbuttonlistener);
+        //view.setVisibility(View.INVISIBLE);
     }    private ArrayList<dataModel> introList(){
         ArrayList<dataModel> list = new ArrayList<>();
         list.add(new dataModel("https://miro.medium.com/max/676/1*XEgA1TTwXa5AvAdw40GFow.png","發展目標","測試1"));
@@ -284,4 +311,105 @@ public class ModelALL {
             }
         }
     };
+    View.OnClickListener deparmentbuttonlistener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Log.d("departmentBtn","BBBBBBB");
+            switch (view.getId())
+            {
+                case R.id.manage_button:
+                    manage.setBackgroundColor(0xffD59B00);
+                    industry.setBackgroundColor(0xFFC9C9C8);
+                    medical.setBackgroundColor(0xFFC9C9C8);
+                    manage.setTextColor(0xFFFFFFFF);
+                    industry.setTextColor(0xFF888988);
+                    medical.setTextColor(0xFF888988);
+                    view.setVisibility(View.VISIBLE);
+                    departmentChange(0xFFC9C9C8);
+                    Institude="管理學院";
+                    break;
+                case R.id.industry_button:
+                    manage.setBackgroundColor(0xFFC9C9C8);
+                    industry.setBackgroundColor(0xffD59B00);
+                    medical.setBackgroundColor(0xFFC9C9C8);
+                    manage.setTextColor(0xFF888988);
+                    industry.setTextColor(0xFFFFFFFF);
+                    medical.setTextColor(0xFF888988);
+                    view.setVisibility(View.VISIBLE);
+                    departmentChange(0xFFC9C9C8);
+                    Institude="工學院";
+                    break;
+                case R.id.medical_button:
+                    medical.setBackgroundColor(0xffD59B00);
+                    industry.setBackgroundColor(0xFFC9C9C8);
+                    manage.setBackgroundColor(0xFFC9C9C8);
+                    manage.setTextColor(0xFF888988);
+                    industry.setTextColor(0xFF888988);
+                    medical.setTextColor(0xFFFFFFFF);
+                    view.setVisibility(View.VISIBLE);
+                    departmentChange(0xFFC9C9C8);
+                    Institude="醫學院";
+                    break;
+            }
+            getDepartment();
+        }
+    };
+
+    void departmentChange(int color)
+    {
+        ListView List1=view.findViewById(R.id.list);
+        ListView List2=view.findViewById(R.id.child_list);
+        ImageView image=view.findViewById(R.id.imageView);
+        TextView text=view.findViewById(R.id.content);
+        at.markushi.ui.CircleButton button1,button2,button3;
+        button1=view.findViewById(R.id.intro);
+        button2=view.findViewById(R.id.department);
+        button3=view.findViewById(R.id.overview);
+        List1.setVisibility(View.INVISIBLE);
+        List2.setVisibility(View.INVISIBLE);
+        image.setVisibility(View.INVISIBLE);
+        text.setVisibility(View.INVISIBLE);
+        button1.setColor(color);
+        button2.setColor(color);
+        button3.setColor(color);
+        button1.setImageResource(R.drawable.presentationdark);
+        button2.setImageResource(R.drawable.departmentdark);
+        button3.setImageResource(R.drawable.overviewdark);
+        button1.setVisibility(View.VISIBLE);
+        button2.setVisibility(View.VISIBLE);
+        button3.setVisibility(View.VISIBLE);
+    }
+
+    public void getDepartment(){
+        Log.d("testlog","AAAAa");
+        String url = this.context.getResources().getString(R.string.url);
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url + String.format("getDepartments?Institude=%s&TypeID=%s",Institude,TypeID), new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray jsonArray) {
+                ArrayList<DepartmentModel> departmentList=new ArrayList<DepartmentModel>();
+                Log.d("arraylog",String.valueOf(jsonArray));
+                for (int i=0;i< jsonArray.length();i++)
+                {
+                    try {
+                        DepartmentModel model = new DepartmentModel();
+                        JSONObject json= jsonArray.getJSONObject(i);
+                        model.ID = json.getString("ID");
+                        model.Department=json.getString("Department");
+                        model.Image=json.getString("Image");
+                        model.TypeID=json.getString("TypeID");
+                        model.Institude=json.getString("Institude");
+                        model.Name=json.getString("Name");
+                        departmentList.add(model);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Log.d("arraylog","L");
+                    }
+                }
+
+            }
+        },null);
+
+        this.mQueue.add(request);
+    }
+
 }

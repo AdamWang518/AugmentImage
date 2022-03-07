@@ -7,18 +7,17 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
 import com.google.ar.sceneform.samples.augmentedimage.R;
+import com.bumptech.glide.Glide;
+import com.google.ar.sceneform.samples.Models.DepartmentModel;
 
 import java.util.ArrayList;
 
-public class ModelAdapter extends BaseAdapter {
-
+public class DepartmentAdapter extends BaseAdapter {
     Context context;
-    ArrayList<dataModel> list;
+    ArrayList<DepartmentModel> list;
     private LayoutInflater myInflater;
-    public ModelAdapter(Context context, ArrayList<dataModel> list){
+    public DepartmentAdapter(Context context, ArrayList<DepartmentModel> list){
         this.context = context;
         this.list = list;
         myInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -41,14 +40,14 @@ public class ModelAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         View v = myInflater.inflate(R.layout.list_content, null);
-        dataModel dataModel = list.get(i);
+        DepartmentModel departmentModel = list.get(i);
         ImageView img = v.findViewById(R.id.img_item);
         TextView title = v.findViewById(R.id.title_item);
         TextView author = v.findViewById(R.id.author_item);
-        title.setText(dataModel.title);
-        author.setText(dataModel.content);
-        if(dataModel.imgUrl!=null) {
-            Glide.with(this.context).load(dataModel.imgUrl).into(img);
+        title.setText(departmentModel.Name);
+        author.setText(departmentModel.Department);
+        if(departmentModel.Image!=null) {
+            Glide.with(this.context).load(departmentModel.Image).into(img);
         }
         return v;
     }
