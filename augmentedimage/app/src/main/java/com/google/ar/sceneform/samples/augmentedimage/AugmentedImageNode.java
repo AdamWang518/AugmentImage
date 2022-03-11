@@ -31,6 +31,7 @@ import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.rendering.ViewRenderable;
 import com.google.ar.sceneform.samples.ModelAction.DepartmentButton;
 import com.google.ar.sceneform.samples.ModelAction.ModelALL;
+import com.google.ar.sceneform.samples.ModelAction.ModelTag;
 
 
 import java.util.concurrent.CompletableFuture;
@@ -51,6 +52,9 @@ public class AugmentedImageNode extends AnchorNode {
   private static CompletableFuture<ViewRenderable> MedicalALLRenderable;
 
   private static CompletableFuture<ViewRenderable> DepartmentButtonRenderable;
+  private static CompletableFuture<ViewRenderable> IndustryTagRenderable;
+  private static CompletableFuture<ViewRenderable> MedicalOneTagRenderable;
+  private static CompletableFuture<ViewRenderable> ManageTagRenderable;
   private   View medicalview;
   private Anchor anchor = null;
   public AugmentedImageNode(Context context) {
@@ -88,6 +92,9 @@ public class AugmentedImageNode extends AnchorNode {
 //                modelList.setListView((department_name));
 //            });
 
+      IndustryTagRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.05f)).setView(context,R.layout.industry_tag).build();
+      MedicalOneTagRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.05f)).setView(context,R.layout.medical_1_tag).build();
+      ManageTagRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.05f)).setView(context,R.layout.manage_tag).build();
 
       MedicalALLRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.5f)).setView(context,R.layout.medical_all).build();
 
@@ -101,7 +108,21 @@ public class AugmentedImageNode extends AnchorNode {
           });
 
       });
-
+      IndustryTagRenderable.thenAccept(
+              (Renderable) -> {
+                  View view = Renderable.getView();
+                  ModelTag intro = new ModelTag(context,view);
+              });
+      MedicalOneTagRenderable.thenAccept(
+              (Renderable) -> {
+                  View view = Renderable.getView();
+                  ModelTag intro = new ModelTag(context,view);
+              });
+      ManageTagRenderable.thenAccept(
+              (Renderable) -> {
+                  View view = Renderable.getView();
+                  ModelTag intro = new ModelTag(context,view);
+              });
 //      Content.thenAccept(
 //              (ContentRenderable) -> {
 //                  View Contentview = ContentRenderable.getView();
@@ -135,7 +156,8 @@ public class AugmentedImageNode extends AnchorNode {
     setAnchor(this.anchor);
     //setModelRenderable(ListButtonRebderable,0f,0.1f, -1f * 0.13f);
     setModelRenderable(MedicalALLRenderable,0f,0.05f, -1f * 0.13f);
-
+    setModelRenderable(MedicalOneTagRenderable,1f * 0.13f,0.05f, -0.5f * 0.13f);
+    setModelRenderable(IndustryTagRenderable,2f * 0.13f,0.05f, -0.5f * 0.13f);
     //setModelRenderable(IndustryALLRenderable,1f* 0.13f,0.05f, -1f * 0.13f);
    // setModelRenderable(ManageALLRenderable,-1f* 0.13f,0.05f, -1f * 0.13f);
 
