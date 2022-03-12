@@ -8,6 +8,7 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.ar.sceneform.samples.Models.DepartmentModel;
+import com.google.ar.sceneform.samples.Models.OptionModel;
 import com.google.ar.sceneform.samples.augmentedimage.R;
 
 import android.content.Context;
@@ -41,7 +42,7 @@ public class ModelALL {
     ArrayList<dataModel> departmentList = departmentList();
     ArrayList<dataModel> overviewList = overviewList();
     ArrayList<dataModel> childList=childList();
-    ArrayList<dataModel> selectedList = null;
+    ArrayList<DepartmentModel> selectedList = null;
     RequestQueue mQueue =null;
     int buttonID=0;
     public ModelALL(String type,Context context ,View view,View introview){
@@ -72,15 +73,16 @@ public class ModelALL {
         medical.setOnClickListener(deparmentbuttonlistener);
         industry.setOnClickListener(deparmentbuttonlistener);
         //view.setVisibility(View.INVISIBLE);
-    }    private ArrayList<dataModel> introList(){
+    }
+
+    private ArrayList<dataModel> introList(){
         ArrayList<dataModel> list = new ArrayList<>();
         list.add(new dataModel("https://miro.medium.com/max/676/1*XEgA1TTwXa5AvAdw40GFow.png","發展目標","測試1"));
         list.add(new dataModel("https://i.pinimg.com/236x/e2/d0/af/e2d0afea804b250800fa2d7cdb8b5e1b.jpg","特色","測試2"));
         list.add(new dataModel("https://i.pinimg.com/236x/e2/d0/af/e2d0afea804b250800fa2d7cdb8b5e1b.jpg","成立時間","測試3"));
         return  list;
     }
-
-    private ArrayList<dataModel>    childList(){
+    private ArrayList<dataModel> childList(){
         ArrayList<dataModel> list = new ArrayList<>();
         list.add(new dataModel("https://miro.medium.com/max/676/1*XEgA1TTwXa5AvAdw40GFow.png","項目1","測試1"));
         list.add(new dataModel("https://i.pinimg.com/236x/e2/d0/af/e2d0afea804b250800fa2d7cdb8b5e1b.jpg","項目2","測試2"));
@@ -101,6 +103,7 @@ public class ModelALL {
         list.add(new dataModel("https://i.pinimg.com/236x/e2/d0/af/e2d0afea804b250800fa2d7cdb8b5e1b.jpg","活動","測試2"));
         return  list;
     }
+
     View.OnClickListener buttonlistener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -118,7 +121,7 @@ public class ModelALL {
                             list1.setVisibility(View.VISIBLE);
                             ModelAdapter adapter = new ModelAdapter(context,introlist);
                             list1.setAdapter(adapter);
-                            selectedList = introlist;
+                            //selectedList = introlist;
                             list2.setVisibility(View.INVISIBLE);
                             allcontent.setVisibility(View.INVISIBLE);
                         }
@@ -146,7 +149,7 @@ public class ModelALL {
                             list1.setVisibility(View.VISIBLE);
                             ModelAdapter adapter = new ModelAdapter(context,introlist);
                             list1.setAdapter(adapter);
-                            selectedList = introlist;
+                           // selectedList = introlist;
                         }
                         break;
                     case R.id.department:
@@ -162,7 +165,7 @@ public class ModelALL {
                             list1.setVisibility(View.VISIBLE);
                             ModelAdapter adapter = new ModelAdapter(context,departmentList);
                             list1.setAdapter(adapter);
-                            selectedList = departmentList;
+                           // selectedList = departmentList;
                             list2.setVisibility(View.INVISIBLE);
                             allcontent.setVisibility(View.INVISIBLE);
                         }
@@ -190,7 +193,7 @@ public class ModelALL {
                             list1.setVisibility(View.VISIBLE);
                             ModelAdapter adapter = new ModelAdapter(context,departmentList);
                             list1.setAdapter(adapter);
-                            selectedList = departmentList;
+                           // selectedList = departmentList;
                         }
                         break;
                     case R.id.overview:
@@ -204,9 +207,8 @@ public class ModelALL {
                             department.setImageResource(R.drawable.departmentdark);
                             overview.setImageResource(R.drawable.overview);
                             list1.setVisibility(View.VISIBLE);
-                            ModelAdapter adapter = new ModelAdapter(context,overviewList);
-                            list1.setAdapter(adapter);
-                            selectedList = overviewList;
+
+                            //selectedList = overviewList;
                             list2.setVisibility(View.INVISIBLE);
                             allcontent.setVisibility(View.INVISIBLE);
                         }
@@ -232,9 +234,9 @@ public class ModelALL {
                             department.setImageResource(R.drawable.departmentdark);
                             overview.setImageResource(R.drawable.overview);
                             list1.setVisibility(View.VISIBLE);
-                            ModelAdapter adapter = new ModelAdapter(context,overviewList);
-                            list1.setAdapter(adapter);
-                            selectedList = overviewList;
+//                            ModelAdapter adapter = new ModelAdapter(context,overviewList);
+//                            list1.setAdapter(adapter);
+                           // selectedList = overviewList;
                         }
                         break;
                 }
@@ -244,21 +246,26 @@ public class ModelALL {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int j, long l) {
             for (int i=0;i<selectedList.size();i++) {
+                Log.d("selectedList",selectedList.get(i).Name);
+
                 View v = list1.getChildAt(i);
-                v.findViewById(R.id.contentItem).setBackgroundColor(0xFFC9C9C8);
-                TextView title = v.findViewById(R.id.title_item);
-                TextView author =v.findViewById(R.id.author_item);
-                title.setTextColor(0xFF888988);
-                author.setTextColor(0xFF888988);
+                if(v!=null) {
+                    v.findViewById(R.id.contentItem).setBackgroundColor(0xFFC9C9C8);
+                    TextView title = v.findViewById(R.id.title_item);
+                    TextView author =v.findViewById(R.id.author_item);
+                    title.setTextColor(0xFF888988);
+                    author.setTextColor(0xFF888988);
+                }
+
             }
+            
             list1.getChildAt(j).findViewById(R.id.contentItem).setBackgroundColor(0xFFD59B00);
             TextView title = list1.getChildAt(j).findViewById(R.id.title_item);
             TextView author =list1.getChildAt(j).findViewById(R.id.author_item);
             title.setTextColor(0xFFFFFFFF);
             author.setTextColor(0xFFFFFFFF);
-            ModelAdapter adapter = new ModelAdapter(context,childList);
-            list2.setAdapter(adapter);
-            list2.setVisibility(View.VISIBLE);
+            DepartmentModel model = selectedList.get(j);
+            getOptionStage1(model.TypeID,model.Department);
         }
     };
     public AdapterView.OnItemClickListener list2ClickListener = new AdapterView.OnItemClickListener() {
@@ -405,6 +412,42 @@ public class ModelALL {
                         Log.d("arraylog","L");
                     }
                 }
+                DepartmentAdapter adapter = new DepartmentAdapter(context,departmentList);
+                list1.setAdapter(adapter);
+                selectedList = departmentList;
+            }
+        },null);
+
+        this.mQueue.add(request);
+    }
+
+    public void getOptionStage1(String typeid,String department){
+        Log.d("testlog","AAAAa");
+        String url = this.context.getResources().getString(R.string.url);
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url + String.format("getOptionStage1?TypeID=%s&Department=%s",typeid,department), new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray jsonArray) {
+                ArrayList<OptionModel> optionModelArrayList=new ArrayList<OptionModel>();
+                for (int i=0;i< jsonArray.length();i++)
+                {
+                    try {
+                        OptionModel model = new OptionModel();
+                        JSONObject json= jsonArray.getJSONObject(i);
+                        model.ID = json.getString("ID");
+                        model.Department=json.getString("Department");
+                        model.Image=json.getString("Image");
+                        model.TypeID=json.getString("TypeID");
+                        model.Option=json.getString("Option");
+                        model.Name=json.getString("Name");
+                        optionModelArrayList.add(model);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Log.d("arraylog","L");
+                    }
+                }
+                OptionAdapter adapter = new OptionAdapter(context,optionModelArrayList);
+                list2.setAdapter(adapter);
+                list2.setVisibility(View.VISIBLE);
 
             }
         },null);
