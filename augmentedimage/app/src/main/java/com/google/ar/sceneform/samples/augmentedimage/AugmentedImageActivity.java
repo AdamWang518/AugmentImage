@@ -160,7 +160,8 @@ public class AugmentedImageActivity extends AppCompatActivity {
           if (!augmentedImageMap.containsKey(augmentedImage)) {
             //node = new AugmentedImageNode(this);
             this.image = augmentedImage;
-            node.setImage(this.image);
+
+            node.setImage(this.image,augmentedImage.getName());
             augmentedImageMap.put(this.image, node);
             arFragment.getArSceneView().getScene().addChild(node);
             isImageDetected = true;

@@ -32,6 +32,7 @@ import com.google.ar.sceneform.rendering.ViewRenderable;
 import com.google.ar.sceneform.samples.ModelAction.DepartmentButton;
 import com.google.ar.sceneform.samples.ModelAction.ModelALL;
 import com.google.ar.sceneform.samples.ModelAction.ModelTag;
+import com.google.ar.sceneform.samples.ModelAction.SwitchTest;
 
 
 import java.util.concurrent.CompletableFuture;
@@ -55,8 +56,11 @@ public class AugmentedImageNode extends AnchorNode {
   private static CompletableFuture<ViewRenderable> IndustryTagRenderable;
   private static CompletableFuture<ViewRenderable> MedicalOneTagRenderable;
   private static CompletableFuture<ViewRenderable> ManageTagRenderable;
+  private static CompletableFuture<ViewRenderable> SwitchRenderable;
   private   View medicalview;
   private Anchor anchor = null;
+  private String Name;
+  private  Context context;
   public AugmentedImageNode(Context context) {
     // Upon construction, start loading the models for the corners of the frame.
     if (ulCorner == null) {
@@ -91,12 +95,14 @@ public class AugmentedImageNode extends AnchorNode {
 //                ModelList modelList = new ModelList(context,ListLayout,InfoLayout);
 //                modelList.setListView((department_name));
 //            });
-
+      this.context=context;
       IndustryTagRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.05f)).setView(context,R.layout.industry_tag).build();
       MedicalOneTagRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.05f)).setView(context,R.layout.medical_1_tag).build();
       ManageTagRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.05f)).setView(context,R.layout.manage_tag).build();
 
       MedicalALLRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.5f)).setView(context,R.layout.medical_all).build();
+
+      SwitchRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.1f)).setView(context,R.layout.switch_test).build();
 
       DepartmentButtonRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.3f)).setView(context,R.layout.department_button).build();
       DepartmentButtonRenderable.thenAccept((renderable) -> {
@@ -123,6 +129,7 @@ public class AugmentedImageNode extends AnchorNode {
                   View view = Renderable.getView();
                   ModelTag intro = new ModelTag(context,view);
               });
+
 //      Content.thenAccept(
 //              (ContentRenderable) -> {
 //                  View Contentview = ContentRenderable.getView();
@@ -139,33 +146,39 @@ public class AugmentedImageNode extends AnchorNode {
 
 
   @SuppressWarnings({"AndroidApiChecker", "FutureReturnValueIgnored"})
-  public void setImage(AugmentedImage image) {
-
-
+  public void setImage(AugmentedImage image,String Name) {
+      this.Name=Name;
     // If any of the models are not loaded, then recurse when all are loaded.
     if (!ulCorner.isDone() || !urCorner.isDone() || !llCorner.isDone() || !lrCorner.isDone()) {
       CompletableFuture.allOf(ulCorner, urCorner, llCorner, lrCorner)
-          .thenAccept((Void aVoid) -> setImage(image))
+          .thenAccept((Void aVoid) -> setImage(image,Name))
           .exceptionally(
               throwable -> {
                 return null;
               });
     }
+    SwitchRenderable.thenAccept(
+            (Renderable) -> {
+                View view = Renderable.getView();
+                SwitchTest intro = new SwitchTest(Name,context,view);
+            });
     this.anchor = image.createAnchor(image.getCenterPose());
     // Set the anchor based on the center of the image.
     setAnchor(this.anchor);
     //setModelRenderable(ListButtonRebderable,0f,0.1f, -1f * 0.13f);
-    setModelRenderable(MedicalALLRenderable,0f,0.05f, -1f * 0.13f);
-    setModelRenderable(MedicalOneTagRenderable,1f * 0.13f,0.05f, -0.5f * 0.13f);
-    setModelRenderable(IndustryTagRenderable,2f * 0.13f,0.05f, -0.5f * 0.13f);
+
+    //setModelRenderable(MedicalALLRenderable,0f,0.05f, -1f * 0.13f);
+    //setModelRenderable(MedicalOneTagRenderable,1f * 0.13f,0.05f, -0.5f * 0.13f);
+    //setModelRenderable(IndustryTagRenderable,2f * 0.13f,0.05f, -0.5f * 0.13f);
+
+      setModelRenderable(SwitchRenderable,0f,0.0f, +0.5f * 0.13f);
     //setModelRenderable(IndustryALLRenderable,1f* 0.13f,0.05f, -1f * 0.13f);
    // setModelRenderable(ManageALLRenderable,-1f* 0.13f,0.05f, -1f * 0.13f);
 
-    setButtonRenderable(DepartmentButtonRenderable,0.3f * 0.13f,0,1f * 0.13f);
+    //setButtonRenderable(DepartmentButtonRenderable,0.3f * 0.13f,0,1f * 0.13f);
+
     //setModelRenderable(CGUManageRebderable,-3f * image.getExtentX(), 0f, 0.5f * image.getExtentZ());//x是左右，Y
     Log.d("Sizelog", String.valueOf(image.getExtentZ()));
-
-
   }
 
   private void setModelRenderable(CompletableFuture<ViewRenderable> renderable,float x,float y,float z){
@@ -175,7 +188,7 @@ public class AugmentedImageNode extends AnchorNode {
       cornerNode = new Node();
       cornerNode.setParent(this);
       cornerNode.setLocalPosition(localPosition);
-      //cornerNode.setLookDirection(Vector3.forward());
+      cornerNode.setLookDirection(Vector3.forward());
 
       cornerNode.setRenderable(renderable.getNow(null));
   }

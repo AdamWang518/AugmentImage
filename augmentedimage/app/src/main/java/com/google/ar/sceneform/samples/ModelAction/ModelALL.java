@@ -258,14 +258,15 @@ public class ModelALL {
                 }
 
             }
-            
+
             list1.getChildAt(j).findViewById(R.id.contentItem).setBackgroundColor(0xFFD59B00);
             TextView title = list1.getChildAt(j).findViewById(R.id.title_item);
             TextView author =list1.getChildAt(j).findViewById(R.id.author_item);
             title.setTextColor(0xFFFFFFFF);
             author.setTextColor(0xFFFFFFFF);
             DepartmentModel model = selectedList.get(j);
-            getOptionStage1(model.TypeID,model.Department);
+            getOptionStage1("7D8514F0-41BE-4757-9AAE-256C789FDC92",model.Department);//獲取介紹
+
         }
     };
     public AdapterView.OnItemClickListener list2ClickListener = new AdapterView.OnItemClickListener() {
