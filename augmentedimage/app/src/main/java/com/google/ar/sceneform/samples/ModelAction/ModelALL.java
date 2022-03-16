@@ -28,27 +28,30 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class ModelALL {
-    String Institude="醫學院";
+    String Institude;
     String TypeID="180C275A-0AA8-4C47-B940-8E675FBB7C8B";
+    String departmentName;
     View view = null;
-    View introview;
     Context context = null;
     at.markushi.ui.CircleButton intro,department,overview;
     ListView list1 = null,list2 = null;
+    Button button;
     TextView content=null;
-    Button manage,medical,industry;
     LinearLayout allcontent=null;
-    ArrayList<dataModel> introlist = introList();
-    ArrayList<dataModel> departmentList = departmentList();
-    ArrayList<dataModel> overviewList = overviewList();
-    ArrayList<dataModel> childList=childList();
     ArrayList<DepartmentModel> selectedList = null;
+    ArrayList<OptionModel> optionModelArrayList = null;
     RequestQueue mQueue =null;
     int buttonID=0;
-    public ModelALL(String type,Context context ,View view,View introview){
+    public ModelALL(String Name,Context context ,View view){
+        getName(Name);
+        init();
+
+
+    }
+    private void init(){
+        Log.d("init","AAA");
         this.context = context;
         this.view = view;
-        this.introview=introview;
         this.mQueue = Volley.newRequestQueue(context);
         intro=this.view.findViewById(R.id.intro);
         overview=this.view.findViewById(R.id.overview);
@@ -57,339 +60,234 @@ public class ModelALL {
         list2=this.view.findViewById(R.id.child_list);
         content=this.view.findViewById(R.id.content);
         allcontent=this.view.findViewById(R.id.allcontent);
+        button=this.view.findViewById(R.id.button);
         intro.setOnClickListener(buttonlistener);
         department.setOnClickListener(buttonlistener);
         overview.setOnClickListener(buttonlistener);
+        button.setOnClickListener(buttonlistener);
         list1.setOnItemClickListener(itemClickListener);
         list2.setOnItemClickListener(list2ClickListener);
         list1.setVisibility(View.INVISIBLE);
         list2.setVisibility(View.INVISIBLE);
         allcontent.setVisibility(View.INVISIBLE);
-
-        manage=this.introview.findViewById(R.id.manage_button);
-        medical=this.introview.findViewById(R.id.medical_button);
-        industry=this.introview.findViewById(R.id.industry_button);
-        manage.setOnClickListener(deparmentbuttonlistener);
-        medical.setOnClickListener(deparmentbuttonlistener);
-        industry.setOnClickListener(deparmentbuttonlistener);
-        //view.setVisibility(View.INVISIBLE);
+        intro.setVisibility(View.VISIBLE);
+        department.setVisibility(View.VISIBLE);
+        department.setVisibility(View.VISIBLE);
     }
-
-    private ArrayList<dataModel> introList(){
-        ArrayList<dataModel> list = new ArrayList<>();
-        list.add(new dataModel("https://miro.medium.com/max/676/1*XEgA1TTwXa5AvAdw40GFow.png","發展目標","測試1"));
-        list.add(new dataModel("https://i.pinimg.com/236x/e2/d0/af/e2d0afea804b250800fa2d7cdb8b5e1b.jpg","特色","測試2"));
-        list.add(new dataModel("https://i.pinimg.com/236x/e2/d0/af/e2d0afea804b250800fa2d7cdb8b5e1b.jpg","成立時間","測試3"));
-        return  list;
-    }
-    private ArrayList<dataModel> childList(){
-        ArrayList<dataModel> list = new ArrayList<>();
-        list.add(new dataModel("https://miro.medium.com/max/676/1*XEgA1TTwXa5AvAdw40GFow.png","項目1","測試1"));
-        list.add(new dataModel("https://i.pinimg.com/236x/e2/d0/af/e2d0afea804b250800fa2d7cdb8b5e1b.jpg","項目2","測試2"));
-        list.add(new dataModel("https://i.pinimg.com/236x/e2/d0/af/e2d0afea804b250800fa2d7cdb8b5e1b.jpg","項目3","測試3"));
-        list.add(new dataModel("https://i.pinimg.com/236x/e2/d0/af/e2d0afea804b250800fa2d7cdb8b5e1b.jpg","項目4","測試5"));
-        return  list;
-    }
-    private ArrayList<dataModel> departmentList(){
-        ArrayList<dataModel> list = new ArrayList<>();
-        list.add(new dataModel("https://miro.medium.com/max/676/1*XEgA1TTwXa5AvAdw40GFow.png","公告","測試1"));
-        list.add(new dataModel("https://i.pinimg.com/236x/e2/d0/af/e2d0afea804b250800fa2d7cdb8b5e1b.jpg","活動","測試2"));
-        list.add(new dataModel("https://i.pinimg.com/236x/e2/d0/af/e2d0afea804b250800fa2d7cdb8b5e1b.jpg","成立時間","測試3"));
-        return  list;
-    }
-    private ArrayList<dataModel> overviewList(){
-        ArrayList<dataModel> list = new ArrayList<>();
-        list.add(new dataModel("https://miro.medium.com/max/676/1*XEgA1TTwXa5AvAdw40GFow.png","公告","測試1"));
-        list.add(new dataModel("https://i.pinimg.com/236x/e2/d0/af/e2d0afea804b250800fa2d7cdb8b5e1b.jpg","活動","測試2"));
-        return  list;
-    }
-
     View.OnClickListener buttonlistener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-                switch (view.getId()) {
-                    case R.id.intro:
-                        if(buttonID==0||buttonID!=intro.getId())
-                        {
-                            buttonID=intro.getId();
-                            intro.setColor(0xFFD59B00);
-                            department.setColor(0xFFC9C9C8);
-                            overview.setColor(0xFFC9C9C8);
-                            intro.setImageResource(R.drawable.presentation);
-                            department.setImageResource(R.drawable.departmentdark);
-                            overview.setImageResource(R.drawable.overviewdark);
-                            list1.setVisibility(View.VISIBLE);
-                            ModelAdapter adapter = new ModelAdapter(context,introlist);
-                            list1.setAdapter(adapter);
-                            //selectedList = introlist;
-                            list2.setVisibility(View.INVISIBLE);
-                            allcontent.setVisibility(View.INVISIBLE);
-                        }
-                        else if(buttonID==intro.getId()&&list1.getVisibility()==View.VISIBLE)
-                        {
-                            intro.setColor(0xFFC9C9C8);
-                            department.setColor(0xFFC9C9C8);
-                            overview.setColor(0xFFC9C9C8);
-                            intro.setImageResource(R.drawable.presentationdark);
-                            department.setImageResource(R.drawable.departmentdark);
-                            overview.setImageResource(R.drawable.overviewdark);
-                            list1.setVisibility(View.INVISIBLE);
-                            list2.setVisibility(View.INVISIBLE);
-                            allcontent.setVisibility(View.INVISIBLE);
-                        }
-                        else if(buttonID==intro.getId()&&list1.getVisibility()==View.INVISIBLE)
-                        {
-                            buttonID=intro.getId();
-                            intro.setColor(0xFFD59B00);
-                            department.setColor(0xFFC9C9C8);
-                            overview.setColor(0xFFC9C9C8);
-                            intro.setImageResource(R.drawable.presentation);
-                            department.setImageResource(R.drawable.departmentdark);
-                            overview.setImageResource(R.drawable.overviewdark);
-                            list1.setVisibility(View.VISIBLE);
-                            ModelAdapter adapter = new ModelAdapter(context,introlist);
-                            list1.setAdapter(adapter);
-                           // selectedList = introlist;
-                        }
-                        break;
-                    case R.id.department:
-                        if(buttonID==0||buttonID!=department.getId())
-                        {
-                            buttonID=department.getId();
-                            intro.setColor(0xFFC9C9C8);
-                            department.setColor(0xFFD59B00);
-                            overview.setColor(0xFFC9C9C8);
-                            intro.setImageResource(R.drawable.presentationdark);
-                            department.setImageResource(R.drawable.department);
-                            overview.setImageResource(R.drawable.overviewdark);
-                            list1.setVisibility(View.VISIBLE);
-                            ModelAdapter adapter = new ModelAdapter(context,departmentList);
-                            list1.setAdapter(adapter);
-                           // selectedList = departmentList;
-                            list2.setVisibility(View.INVISIBLE);
-                            allcontent.setVisibility(View.INVISIBLE);
-                        }
-                        else if(buttonID==department.getId()&&list1.getVisibility()==View.VISIBLE)
-                        {
-                            intro.setColor(0xFFC9C9C8);
-                            department.setColor(0xFFC9C9C8);
-                            overview.setColor(0xFFC9C9C8);
-                            intro.setImageResource(R.drawable.presentationdark);
-                            department.setImageResource(R.drawable.departmentdark);
-                            overview.setImageResource(R.drawable.overviewdark);
-                            list1.setVisibility(View.INVISIBLE);
-                            list2.setVisibility(View.INVISIBLE);
-                            allcontent.setVisibility(View.INVISIBLE);
-                        }
-                        else if(buttonID==department.getId()&&list1.getVisibility()==View.INVISIBLE)
-                        {
-                            buttonID=intro.getId();
-                            intro.setColor(0xFFC9C9C8);
-                            department.setColor(0xFFD59B00);
-                            overview.setColor(0xFFC9C9C8);
-                            intro.setImageResource(R.drawable.presentationdark);
-                            department.setImageResource(R.drawable.department);
-                            overview.setImageResource(R.drawable.overviewdark);
-                            list1.setVisibility(View.VISIBLE);
-                            ModelAdapter adapter = new ModelAdapter(context,departmentList);
-                            list1.setAdapter(adapter);
-                           // selectedList = departmentList;
-                        }
-                        break;
-                    case R.id.overview:
-                        if(buttonID==0||buttonID!=overview.getId())
-                        {
-                            buttonID=overview.getId();
-                            intro.setColor(0xFFC9C9C8);
-                            department.setColor(0xFFC9C9C8);
-                            overview.setColor(0xFFD59B00);
-                            intro.setImageResource(R.drawable.presentationdark);
-                            department.setImageResource(R.drawable.departmentdark);
-                            overview.setImageResource(R.drawable.overview);
-                            list1.setVisibility(View.VISIBLE);
-
-                            //selectedList = overviewList;
-                            list2.setVisibility(View.INVISIBLE);
-                            allcontent.setVisibility(View.INVISIBLE);
-                        }
-                        else if(buttonID==overview.getId()&&list1.getVisibility()==View.VISIBLE)
-                        {
-                            intro.setColor(0xFFC9C9C8);
-                            department.setColor(0xFFC9C9C8);
-                            overview.setColor(0xFFC9C9C8);
-                            intro.setImageResource(R.drawable.presentationdark);
-                            department.setImageResource(R.drawable.departmentdark);
-                            overview.setImageResource(R.drawable.overviewdark);
-                            list1.setVisibility(View.INVISIBLE);
-                            list2.setVisibility(View.INVISIBLE);
-                            allcontent.setVisibility(View.INVISIBLE);
-                        }
-                        else if(buttonID==overview.getId()&&list1.getVisibility()==View.INVISIBLE)
-                        {
-                            buttonID=intro.getId();
-                            intro.setColor(0xFFC9C9C8);
-                            department.setColor(0xFFC9C9C8);
-                            overview.setColor(0xFFD59B00);
-                            intro.setImageResource(R.drawable.presentationdark);
-                            department.setImageResource(R.drawable.departmentdark);
-                            overview.setImageResource(R.drawable.overview);
-                            list1.setVisibility(View.VISIBLE);
-//                            ModelAdapter adapter = new ModelAdapter(context,overviewList);
-//                            list1.setAdapter(adapter);
-                           // selectedList = overviewList;
-                        }
-                        break;
-                }
+            Log.d("depAA","AAAAAAAAAA");
         }
     };
+
+//    View.OnClickListener buttonlistener = new View.OnClickListener() {
+//        @Override
+//        public void onClick(View view) {
+//            Log.d("departmenttest","OOO");
+//                switch (view.getId()) {
+//                    case R.id.intro:
+//                        if(buttonID==0||buttonID!=intro.getId())
+//                        {
+//                            buttonID=intro.getId();
+//                            intro.setColor(0xFFD59B00);
+//                            department.setColor(0xFFC9C9C8);
+//                            overview.setColor(0xFFC9C9C8);
+//                            intro.setImageResource(R.drawable.presentation);
+//                            department.setImageResource(R.drawable.departmentdark);
+//                            overview.setImageResource(R.drawable.overviewdark);
+//                            list1.setVisibility(View.VISIBLE);
+//                            //ModelAdapter adapter = new ModelAdapter(context,introlist);
+//                            //list1.setAdapter(adapter);
+//                            //selectedList = introlist;
+//                            list2.setVisibility(View.INVISIBLE);
+//                            allcontent.setVisibility(View.INVISIBLE);
+//                        }
+//                        else if(buttonID==intro.getId()&&list1.getVisibility()==View.VISIBLE)
+//                        {
+//                            intro.setColor(0xFFC9C9C8);
+//                            department.setColor(0xFFC9C9C8);
+//                            overview.setColor(0xFFC9C9C8);
+//                            intro.setImageResource(R.drawable.presentationdark);
+//                            department.setImageResource(R.drawable.departmentdark);
+//                            overview.setImageResource(R.drawable.overviewdark);
+//                            list1.setVisibility(View.INVISIBLE);
+//                            list2.setVisibility(View.INVISIBLE);
+//                            allcontent.setVisibility(View.INVISIBLE);
+//                        }
+//                        else if(buttonID==intro.getId()&&list1.getVisibility()==View.INVISIBLE)
+//                        {
+//                            buttonID=intro.getId();
+//                            intro.setColor(0xFFD59B00);
+//                            department.setColor(0xFFC9C9C8);
+//                            overview.setColor(0xFFC9C9C8);
+//                            intro.setImageResource(R.drawable.presentation);
+//                            department.setImageResource(R.drawable.departmentdark);
+//                            overview.setImageResource(R.drawable.overviewdark);
+//                            list1.setVisibility(View.VISIBLE);
+//                            //ModelAdapter adapter = new ModelAdapter(context,introlist);
+//                            //list1.setAdapter(adapter);
+//                           // selectedList = introlist;
+//                        }
+//                        break;
+//                    case R.id.department:
+//                        if(buttonID==0||buttonID!=department.getId())
+//                        {
+//                            buttonID=department.getId();
+//                            intro.setColor(0xFFC9C9C8);
+//                            department.setColor(0xFFD59B00);
+//                            overview.setColor(0xFFC9C9C8);
+//                            intro.setImageResource(R.drawable.presentationdark);
+//                            department.setImageResource(R.drawable.department);
+//                            overview.setImageResource(R.drawable.overviewdark);
+//                            list1.setVisibility(View.VISIBLE);
+//                            //ModelAdapter adapter = new ModelAdapter(context,departmentList);
+//                            //list1.setAdapter(adapter);
+//                           // selectedList = departmentList;
+//                            list2.setVisibility(View.INVISIBLE);
+//                            allcontent.setVisibility(View.INVISIBLE);
+//                        }
+//                        else if(buttonID==department.getId()&&list1.getVisibility()==View.VISIBLE)
+//                        {
+//                            intro.setColor(0xFFC9C9C8);
+//                            department.setColor(0xFFC9C9C8);
+//                            overview.setColor(0xFFC9C9C8);
+//                            intro.setImageResource(R.drawable.presentationdark);
+//                            department.setImageResource(R.drawable.departmentdark);
+//                            overview.setImageResource(R.drawable.overviewdark);
+//                            list1.setVisibility(View.INVISIBLE);
+//                            list2.setVisibility(View.INVISIBLE);
+//                            allcontent.setVisibility(View.INVISIBLE);
+//                        }
+//                        else if(buttonID==department.getId()&&list1.getVisibility()==View.INVISIBLE)
+//                        {
+//                            buttonID=intro.getId();
+//                            intro.setColor(0xFFC9C9C8);
+//                            department.setColor(0xFFD59B00);
+//                            overview.setColor(0xFFC9C9C8);
+//                            intro.setImageResource(R.drawable.presentationdark);
+//                            department.setImageResource(R.drawable.department);
+//                            overview.setImageResource(R.drawable.overviewdark);
+//                            list1.setVisibility(View.VISIBLE);
+//                            //ModelAdapter adapter = new ModelAdapter(context,departmentList);
+//                            //list1.setAdapter(adapter);
+//                           // selectedList = departmentList;
+//                        }
+//                        break;
+//                    case R.id.overview:
+//
+//                        if(buttonID==0||buttonID!=overview.getId())
+//                        {
+//                            buttonID=overview.getId();
+//                            intro.setColor(0xFFC9C9C8);
+//                            department.setColor(0xFFC9C9C8);
+//                            overview.setColor(0xFFD59B00);
+//                            intro.setImageResource(R.drawable.presentationdark);
+//                            department.setImageResource(R.drawable.departmentdark);
+//                            overview.setImageResource(R.drawable.overview);
+//                            Log.d("departmenttest","OOO");
+//                            getDepartment();
+//                            list1.setVisibility(View.VISIBLE);
+//
+//                            //selectedList = overviewList;
+//                            list2.setVisibility(View.INVISIBLE);
+//                            allcontent.setVisibility(View.INVISIBLE);
+//                        }
+//                        else if(buttonID==overview.getId()&&list1.getVisibility()==View.VISIBLE)
+//                        {
+//                            intro.setColor(0xFFC9C9C8);
+//                            department.setColor(0xFFC9C9C8);
+//                            overview.setColor(0xFFC9C9C8);
+//                            intro.setImageResource(R.drawable.presentationdark);
+//                            department.setImageResource(R.drawable.departmentdark);
+//                            overview.setImageResource(R.drawable.overviewdark);
+//                            list1.setVisibility(View.INVISIBLE);
+//                            list2.setVisibility(View.INVISIBLE);
+//                            allcontent.setVisibility(View.INVISIBLE);
+//                        }
+//                        else if(buttonID==overview.getId()&&list1.getVisibility()==View.INVISIBLE)
+//                        {
+//                            buttonID=intro.getId();
+//                            intro.setColor(0xFFC9C9C8);
+//                            department.setColor(0xFFC9C9C8);
+//                            overview.setColor(0xFFD59B00);
+//                            intro.setImageResource(R.drawable.presentationdark);
+//                            department.setImageResource(R.drawable.departmentdark);
+//                            overview.setImageResource(R.drawable.overview);
+//                            Log.d("test","OOO");
+//                            getDepartment();
+//                            list1.setVisibility(View.VISIBLE);
+////                            ModelAdapter adapter = new ModelAdapter(context,overviewList);
+////                            list1.setAdapter(adapter);
+//                           // selectedList = overviewList;
+//                        }
+//                        break;
+//                }
+//        }
+//    };
     public AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int j, long l) {
             for (int i=0;i<selectedList.size();i++) {
-                Log.d("selectedList",selectedList.get(i).Name);
-
-                View v = list1.getChildAt(i);
-                if(v!=null) {
-                    v.findViewById(R.id.contentItem).setBackgroundColor(0xFFC9C9C8);
-                    TextView title = v.findViewById(R.id.title_item);
-                    TextView author =v.findViewById(R.id.author_item);
-                    title.setTextColor(0xFF888988);
-                    author.setTextColor(0xFF888988);
-                }
-
+                setDefault(list1,i);
             }
-
-            list1.getChildAt(j).findViewById(R.id.contentItem).setBackgroundColor(0xFFD59B00);
-            TextView title = list1.getChildAt(j).findViewById(R.id.title_item);
-            TextView author =list1.getChildAt(j).findViewById(R.id.author_item);
-            title.setTextColor(0xFFFFFFFF);
-            author.setTextColor(0xFFFFFFFF);
+            setSelectedItem(list1,j);
             DepartmentModel model = selectedList.get(j);
-            getOptionStage1("7D8514F0-41BE-4757-9AAE-256C789FDC92",model.Department);//獲取介紹
+            getOptionStage1("7D8514F0-41BE-4757-9AAE-256C789FDC92");//獲取介紹
 
         }
     };
+    private void setDefault(ListView listView,int index){
+        View v = listView.getChildAt(index);
+        if(v!=null) {
+            v.findViewById(R.id.contentItem).setBackgroundColor(0xFFC9C9C8);
+            TextView title = v.findViewById(R.id.title_item);
+            TextView author =v.findViewById(R.id.author_item);
+            title.setTextColor(0xFF888988);
+            author.setTextColor(0xFF888988);
+        }
+
+    }
+    private void setSelectedItem(ListView listView,int index){
+        list1.getChildAt(index).findViewById(R.id.contentItem).setBackgroundColor(0xFFD59B00);
+        TextView title = list1.getChildAt(index).findViewById(R.id.title_item);
+        TextView author =list1.getChildAt(index).findViewById(R.id.author_item);
+        title.setTextColor(0xFFFFFFFF);
+        author.setTextColor(0xFFFFFFFF);
+
+    }
+
     public AdapterView.OnItemClickListener list2ClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            for (int j=0;j<childList.size();j++) {
-                View v = list2.getChildAt(j);
-                v.findViewById(R.id.contentItem).setBackgroundColor(0xFFC9C9C8);
-                TextView title = v.findViewById(R.id.title_item);
-                TextView author =v.findViewById(R.id.author_item);
-                title.setTextColor(0xFF888988);
-                author.setTextColor(0xFF888988);
+            for (int j=0;j<optionModelArrayList.size();j++) {
+               setDefault(list2,j);
             }
-            list2.getChildAt(i).findViewById(R.id.contentItem).setBackgroundColor(0xFFD59B00);
-            TextView title = list2.getChildAt(i).findViewById(R.id.title_item);
-            TextView author =list2.getChildAt(i).findViewById(R.id.author_item);
-            title.setTextColor(0xFFFFFFFF);
-            author.setTextColor(0xFFFFFFFF);
-            String text="";
-            switch (title.getText().toString())
-            {
-                case "項目1":
-                    text = context.getResources().getString(R.string.cgu_industry_characteristic).toString();
-                    Log.d("content",text);
-                    content.setText(text);
-                    content.setTextColor(0xffffffff);
-                    allcontent.setVisibility(View.VISIBLE);
-                    break;
-                case "項目2":
-                    text = context.getResources().getString(R.string.cgu_manage_characteristic).toString();
-                    Log.d("content",text);
-                    content.setText(text);
-                    content.setTextColor(0xffffffff);
-                    allcontent.setVisibility(View.VISIBLE);
-                    break;
-                case "項目3":
-                    text = context.getResources().getString(R.string.cgu_medical_characteristic).toString();
-                    Log.d("content",text);
-                    content.setText(text);
-                    content.setTextColor(0xffffffff);
-                    allcontent.setVisibility(View.VISIBLE);
-                    break;
-                case "項目4":
-                    text = context.getResources().getString(R.string.cgu_medical_time).toString();
-                    Log.d("content",text);
-                    content.setText(text);
-                    content.setTextColor(0xffffffff);
-                    allcontent.setVisibility(View.VISIBLE);
-                    break;
-            }
-        }
-    };
-    View.OnClickListener deparmentbuttonlistener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Log.d("departmentBtn","BBBBBBB");
-            switch (view.getId())
-            {
-                case R.id.manage_button:
-                    manage.setBackgroundColor(0xffD59B00);
-                    industry.setBackgroundColor(0xFFC9C9C8);
-                    medical.setBackgroundColor(0xFFC9C9C8);
-                    manage.setTextColor(0xFFFFFFFF);
-                    industry.setTextColor(0xFF888988);
-                    medical.setTextColor(0xFF888988);
-                    view.setVisibility(View.VISIBLE);
-                    departmentChange(0xFFC9C9C8);
-                    Institude="管理學院";
-                    break;
-                case R.id.industry_button:
-                    manage.setBackgroundColor(0xFFC9C9C8);
-                    industry.setBackgroundColor(0xffD59B00);
-                    medical.setBackgroundColor(0xFFC9C9C8);
-                    manage.setTextColor(0xFF888988);
-                    industry.setTextColor(0xFFFFFFFF);
-                    medical.setTextColor(0xFF888988);
-                    view.setVisibility(View.VISIBLE);
-                    departmentChange(0xFFC9C9C8);
-                    Institude="工學院";
-                    break;
-                case R.id.medical_button:
-                    medical.setBackgroundColor(0xffD59B00);
-                    industry.setBackgroundColor(0xFFC9C9C8);
-                    manage.setBackgroundColor(0xFFC9C9C8);
-                    manage.setTextColor(0xFF888988);
-                    industry.setTextColor(0xFF888988);
-                    medical.setTextColor(0xFFFFFFFF);
-                    view.setVisibility(View.VISIBLE);
-                    departmentChange(0xFFC9C9C8);
-                    Institude="醫學院";
-                    break;
-            }
-            getDepartment();
+            setSelectedItem(list2,i);
         }
     };
 
-    void departmentChange(int color)
+
+    public  void getName(String name)
     {
-        ListView List1=view.findViewById(R.id.list);
-        ListView List2=view.findViewById(R.id.child_list);
-        ImageView image=view.findViewById(R.id.imageView);
-        TextView text=view.findViewById(R.id.content);
-        at.markushi.ui.CircleButton button1,button2,button3;
-        button1=view.findViewById(R.id.intro);
-        button2=view.findViewById(R.id.department);
-        button3=view.findViewById(R.id.overview);
-        List1.setVisibility(View.INVISIBLE);
-        List2.setVisibility(View.INVISIBLE);
-        image.setVisibility(View.INVISIBLE);
-        text.setVisibility(View.INVISIBLE);
-        button1.setColor(color);
-        button2.setColor(color);
-        button3.setColor(color);
-        button1.setImageResource(R.drawable.presentationdark);
-        button2.setImageResource(R.drawable.departmentdark);
-        button3.setImageResource(R.drawable.overviewdark);
-        button1.setVisibility(View.VISIBLE);
-        button2.setVisibility(View.VISIBLE);
-        button3.setVisibility(View.VISIBLE);
+        switch (name)
+        {
+            case "industry.png":
+                Institude="工學院";
+                departmentName="資訊工程學系";
+                break;
+            case "management.png":
+                Institude="管理學院";
+                departmentName="";
+                break;
+            case "medical.png":
+                Institude="醫學院";
+                departmentName="醫務管理學系";
+                break;
+        }
     }
-
     public void getDepartment(){
-        Log.d("testlog","AAAAa");
+        Log.d("getDepartmentlog","AAAAa");
         String url = this.context.getResources().getString(R.string.url);
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url + String.format("getDepartments?Institude=%s&TypeID=%s",Institude,TypeID), new Response.Listener<JSONArray>() {
             @Override
@@ -422,13 +320,13 @@ public class ModelALL {
         this.mQueue.add(request);
     }
 
-    public void getOptionStage1(String typeid,String department){
+    public void getOptionStage1(String typeid){
         Log.d("testlog","AAAAa");
         String url = this.context.getResources().getString(R.string.url);
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url + String.format("getOptionStage1?TypeID=%s&Department=%s",typeid,department), new Response.Listener<JSONArray>() {
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url + String.format("getOptionStage1?TypeID=%s&Department=%s",typeid,departmentName), new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray jsonArray) {
-                ArrayList<OptionModel> optionModelArrayList=new ArrayList<OptionModel>();
+                optionModelArrayList=new ArrayList<OptionModel>();
                 for (int i=0;i< jsonArray.length();i++)
                 {
                     try {

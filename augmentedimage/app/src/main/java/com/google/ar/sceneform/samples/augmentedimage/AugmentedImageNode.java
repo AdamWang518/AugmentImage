@@ -105,15 +105,16 @@ public class AugmentedImageNode extends AnchorNode {
       SwitchRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.1f)).setView(context,R.layout.switch_test).build();
 
       DepartmentButtonRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.3f)).setView(context,R.layout.department_button).build();
-      DepartmentButtonRenderable.thenAccept((renderable) -> {
-          View view = renderable.getView();
-          DepartmentButton intro = new DepartmentButton(context,view);
-          MedicalALLRenderable.thenAccept((Medicalrenderable) -> {
-               medicalview = Medicalrenderable.getView();
-               ModelALL medicalALL = new ModelALL("medical",context,medicalview,view);
-          });
+//      DepartmentButtonRenderable.thenAccept((renderable) -> {
+//          View view = renderable.getView();
+//          DepartmentButton intro = new DepartmentButton(context,view);
+//          MedicalALLRenderable.thenAccept((Medicalrenderable) -> {
+//               medicalview = Medicalrenderable.getView();
+//              MedicalALLRenderable medicalALL = new ModelALL("medical",context,medicalview,view);
+//          });
+//
+//      });
 
-      });
       IndustryTagRenderable.thenAccept(
               (Renderable) -> {
                   View view = Renderable.getView();
@@ -162,16 +163,21 @@ public class AugmentedImageNode extends AnchorNode {
                 View view = Renderable.getView();
                 SwitchTest intro = new SwitchTest(Name,context,view);
             });
+      MedicalALLRenderable.thenAccept(
+              (Renderable) -> {
+                  View view = Renderable.getView();
+                  ModelALL intro = new ModelALL(Name,context,view);
+              });
     this.anchor = image.createAnchor(image.getCenterPose());
     // Set the anchor based on the center of the image.
     setAnchor(this.anchor);
     //setModelRenderable(ListButtonRebderable,0f,0.1f, -1f * 0.13f);
 
-    //setModelRenderable(MedicalALLRenderable,0f,0.05f, -1f * 0.13f);
+    setModelRenderable(MedicalALLRenderable,0f,+0.5f * 0.13f, 1f * 0.13f);
     //setModelRenderable(MedicalOneTagRenderable,1f * 0.13f,0.05f, -0.5f * 0.13f);
     //setModelRenderable(IndustryTagRenderable,2f * 0.13f,0.05f, -0.5f * 0.13f);
 
-      setModelRenderable(SwitchRenderable,0f,0.0f, +0.5f * 0.13f);
+     // setModelRenderable(SwitchRenderable,0f,+0.5f * 0.13f, +0.25f * 0.13f);
     //setModelRenderable(IndustryALLRenderable,1f* 0.13f,0.05f, -1f * 0.13f);
    // setModelRenderable(ManageALLRenderable,-1f* 0.13f,0.05f, -1f * 0.13f);
 

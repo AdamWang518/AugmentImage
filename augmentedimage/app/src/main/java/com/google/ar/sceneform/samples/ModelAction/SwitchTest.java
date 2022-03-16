@@ -23,13 +23,13 @@ public class SwitchTest {
     {
         switch (name)
         {
-            case "pic1.png":
+            case "industry.png":
                 image.setImageResource(R.drawable.cat);
                 break;
-            case "pic2.jpg":
+            case "management.png":
                 image.setImageResource(R.drawable.kitten);
                 break;
-            case "pic3.png":
+            case "medical.png":
                 image.setImageResource(R.drawable.dog);
                 break;
         }

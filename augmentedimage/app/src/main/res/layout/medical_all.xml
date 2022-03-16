@@ -76,6 +76,12 @@
             android:src="@drawable/overviewdark"
             app:cb_color="#C9C9C8"
             app:cb_pressedRingWidth="8dip" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Button" />
     </LinearLayout>
 
     <LinearLayout
