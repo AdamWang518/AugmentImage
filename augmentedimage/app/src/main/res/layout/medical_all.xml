@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="1278dp"
-    android:layout_height="798dp"
+    android:layout_width="1023dp"
+    android:layout_height="640dp"
     android:gravity="center"
 
     android:orientation="horizontal">

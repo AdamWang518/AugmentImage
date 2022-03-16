@@ -43,13 +43,8 @@ public class ModelALL {
     RequestQueue mQueue =null;
     int buttonID=0;
     public ModelALL(String Name,Context context ,View view){
+
         getName(Name);
-        init();
-
-
-    }
-    private void init(){
-        Log.d("init","AAA");
         this.context = context;
         this.view = view;
         this.mQueue = Volley.newRequestQueue(context);
@@ -73,158 +68,159 @@ public class ModelALL {
         intro.setVisibility(View.VISIBLE);
         department.setVisibility(View.VISIBLE);
         department.setVisibility(View.VISIBLE);
+
+
     }
+    private void init(){
+
+
+    }
+
+
     View.OnClickListener buttonlistener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Log.d("depAA","AAAAAAAAAA");
+            Log.d("departmenttest","OOO");
+                switch (view.getId()) {
+                    case R.id.intro:
+                        if(buttonID==0||buttonID!=intro.getId())
+                        {
+                            buttonID=intro.getId();
+                            intro.setColor(0xFFD59B00);
+                            department.setColor(0xFFC9C9C8);
+                            overview.setColor(0xFFC9C9C8);
+                            intro.setImageResource(R.drawable.presentation);
+                            department.setImageResource(R.drawable.departmentdark);
+                            overview.setImageResource(R.drawable.overviewdark);
+                            list1.setVisibility(View.VISIBLE);
+                            //ModelAdapter adapter = new ModelAdapter(context,introlist);
+                            //list1.setAdapter(adapter);
+                            //selectedList = introlist;
+                            list2.setVisibility(View.INVISIBLE);
+                            allcontent.setVisibility(View.INVISIBLE);
+                        }
+                        else if(buttonID==intro.getId()&&list1.getVisibility()==View.VISIBLE)
+                        {
+                            intro.setColor(0xFFC9C9C8);
+                            department.setColor(0xFFC9C9C8);
+                            overview.setColor(0xFFC9C9C8);
+                            intro.setImageResource(R.drawable.presentationdark);
+                            department.setImageResource(R.drawable.departmentdark);
+                            overview.setImageResource(R.drawable.overviewdark);
+                            list1.setVisibility(View.INVISIBLE);
+                            list2.setVisibility(View.INVISIBLE);
+                            allcontent.setVisibility(View.INVISIBLE);
+                        }
+                        else if(buttonID==intro.getId()&&list1.getVisibility()==View.INVISIBLE)
+                        {
+                            buttonID=intro.getId();
+                            intro.setColor(0xFFD59B00);
+                            department.setColor(0xFFC9C9C8);
+                            overview.setColor(0xFFC9C9C8);
+                            intro.setImageResource(R.drawable.presentation);
+                            department.setImageResource(R.drawable.departmentdark);
+                            overview.setImageResource(R.drawable.overviewdark);
+                            list1.setVisibility(View.VISIBLE);
+                            //ModelAdapter adapter = new ModelAdapter(context,introlist);
+                            //list1.setAdapter(adapter);
+                           // selectedList = introlist;
+                        }
+                        break;
+                    case R.id.department:
+                        if(buttonID==0||buttonID!=department.getId())
+                        {
+                            buttonID=department.getId();
+                            intro.setColor(0xFFC9C9C8);
+                            department.setColor(0xFFD59B00);
+                            overview.setColor(0xFFC9C9C8);
+                            intro.setImageResource(R.drawable.presentationdark);
+                            department.setImageResource(R.drawable.department);
+                            overview.setImageResource(R.drawable.overviewdark);
+                            list1.setVisibility(View.VISIBLE);
+                            //ModelAdapter adapter = new ModelAdapter(context,departmentList);
+                            //list1.setAdapter(adapter);
+                           // selectedList = departmentList;
+                            list2.setVisibility(View.INVISIBLE);
+                            allcontent.setVisibility(View.INVISIBLE);
+                        }
+                        else if(buttonID==department.getId()&&list1.getVisibility()==View.VISIBLE)
+                        {
+                            intro.setColor(0xFFC9C9C8);
+                            department.setColor(0xFFC9C9C8);
+                            overview.setColor(0xFFC9C9C8);
+                            intro.setImageResource(R.drawable.presentationdark);
+                            department.setImageResource(R.drawable.departmentdark);
+                            overview.setImageResource(R.drawable.overviewdark);
+                            list1.setVisibility(View.INVISIBLE);
+                            list2.setVisibility(View.INVISIBLE);
+                            allcontent.setVisibility(View.INVISIBLE);
+                        }
+                        else if(buttonID==department.getId()&&list1.getVisibility()==View.INVISIBLE)
+                        {
+                            buttonID=intro.getId();
+                            intro.setColor(0xFFC9C9C8);
+                            department.setColor(0xFFD59B00);
+                            overview.setColor(0xFFC9C9C8);
+                            intro.setImageResource(R.drawable.presentationdark);
+                            department.setImageResource(R.drawable.department);
+                            overview.setImageResource(R.drawable.overviewdark);
+                            list1.setVisibility(View.VISIBLE);
+                            //ModelAdapter adapter = new ModelAdapter(context,departmentList);
+                            //list1.setAdapter(adapter);
+                           // selectedList = departmentList;
+                        }
+                        break;
+                    case R.id.overview:
+
+                        if(buttonID==0||buttonID!=overview.getId())
+                        {
+                            buttonID=overview.getId();
+                            intro.setColor(0xFFC9C9C8);
+                            department.setColor(0xFFC9C9C8);
+                            overview.setColor(0xFFD59B00);
+                            intro.setImageResource(R.drawable.presentationdark);
+                            department.setImageResource(R.drawable.departmentdark);
+                            overview.setImageResource(R.drawable.overview);
+                            Log.d("departmenttest","OOO");
+                            getDepartment();
+                            list1.setVisibility(View.VISIBLE);
+
+                            //selectedList = overviewList;
+                            list2.setVisibility(View.INVISIBLE);
+                            allcontent.setVisibility(View.INVISIBLE);
+                        }
+                        else if(buttonID==overview.getId()&&list1.getVisibility()==View.VISIBLE)
+                        {
+                            intro.setColor(0xFFC9C9C8);
+                            department.setColor(0xFFC9C9C8);
+                            overview.setColor(0xFFC9C9C8);
+                            intro.setImageResource(R.drawable.presentationdark);
+                            department.setImageResource(R.drawable.departmentdark);
+                            overview.setImageResource(R.drawable.overviewdark);
+                            list1.setVisibility(View.INVISIBLE);
+                            list2.setVisibility(View.INVISIBLE);
+                            allcontent.setVisibility(View.INVISIBLE);
+                        }
+                        else if(buttonID==overview.getId()&&list1.getVisibility()==View.INVISIBLE)
+                        {
+                            buttonID=intro.getId();
+                            intro.setColor(0xFFC9C9C8);
+                            department.setColor(0xFFC9C9C8);
+                            overview.setColor(0xFFD59B00);
+                            intro.setImageResource(R.drawable.presentationdark);
+                            department.setImageResource(R.drawable.departmentdark);
+                            overview.setImageResource(R.drawable.overview);
+                            Log.d("testbutton","OOO");
+                            getDepartment();
+                            list1.setVisibility(View.VISIBLE);
+//                            ModelAdapter adapter = new ModelAdapter(context,overviewList);
+//                            list1.setAdapter(adapter);
+                           // selectedList = overviewList;
+                        }
+                        break;
+                }
         }
     };
-
-//    View.OnClickListener buttonlistener = new View.OnClickListener() {
-//        @Override
-//        public void onClick(View view) {
-//            Log.d("departmenttest","OOO");
-//                switch (view.getId()) {
-//                    case R.id.intro:
-//                        if(buttonID==0||buttonID!=intro.getId())
-//                        {
-//                            buttonID=intro.getId();
-//                            intro.setColor(0xFFD59B00);
-//                            department.setColor(0xFFC9C9C8);
-//                            overview.setColor(0xFFC9C9C8);
-//                            intro.setImageResource(R.drawable.presentation);
-//                            department.setImageResource(R.drawable.departmentdark);
-//                            overview.setImageResource(R.drawable.overviewdark);
-//                            list1.setVisibility(View.VISIBLE);
-//                            //ModelAdapter adapter = new ModelAdapter(context,introlist);
-//                            //list1.setAdapter(adapter);
-//                            //selectedList = introlist;
-//                            list2.setVisibility(View.INVISIBLE);
-//                            allcontent.setVisibility(View.INVISIBLE);
-//                        }
-//                        else if(buttonID==intro.getId()&&list1.getVisibility()==View.VISIBLE)
-//                        {
-//                            intro.setColor(0xFFC9C9C8);
-//                            department.setColor(0xFFC9C9C8);
-//                            overview.setColor(0xFFC9C9C8);
-//                            intro.setImageResource(R.drawable.presentationdark);
-//                            department.setImageResource(R.drawable.departmentdark);
-//                            overview.setImageResource(R.drawable.overviewdark);
-//                            list1.setVisibility(View.INVISIBLE);
-//                            list2.setVisibility(View.INVISIBLE);
-//                            allcontent.setVisibility(View.INVISIBLE);
-//                        }
-//                        else if(buttonID==intro.getId()&&list1.getVisibility()==View.INVISIBLE)
-//                        {
-//                            buttonID=intro.getId();
-//                            intro.setColor(0xFFD59B00);
-//                            department.setColor(0xFFC9C9C8);
-//                            overview.setColor(0xFFC9C9C8);
-//                            intro.setImageResource(R.drawable.presentation);
-//                            department.setImageResource(R.drawable.departmentdark);
-//                            overview.setImageResource(R.drawable.overviewdark);
-//                            list1.setVisibility(View.VISIBLE);
-//                            //ModelAdapter adapter = new ModelAdapter(context,introlist);
-//                            //list1.setAdapter(adapter);
-//                           // selectedList = introlist;
-//                        }
-//                        break;
-//                    case R.id.department:
-//                        if(buttonID==0||buttonID!=department.getId())
-//                        {
-//                            buttonID=department.getId();
-//                            intro.setColor(0xFFC9C9C8);
-//                            department.setColor(0xFFD59B00);
-//                            overview.setColor(0xFFC9C9C8);
-//                            intro.setImageResource(R.drawable.presentationdark);
-//                            department.setImageResource(R.drawable.department);
-//                            overview.setImageResource(R.drawable.overviewdark);
-//                            list1.setVisibility(View.VISIBLE);
-//                            //ModelAdapter adapter = new ModelAdapter(context,departmentList);
-//                            //list1.setAdapter(adapter);
-//                           // selectedList = departmentList;
-//                            list2.setVisibility(View.INVISIBLE);
-//                            allcontent.setVisibility(View.INVISIBLE);
-//                        }
-//                        else if(buttonID==department.getId()&&list1.getVisibility()==View.VISIBLE)
-//                        {
-//                            intro.setColor(0xFFC9C9C8);
-//                            department.setColor(0xFFC9C9C8);
-//                            overview.setColor(0xFFC9C9C8);
-//                            intro.setImageResource(R.drawable.presentationdark);
-//                            department.setImageResource(R.drawable.departmentdark);
-//                            overview.setImageResource(R.drawable.overviewdark);
-//                            list1.setVisibility(View.INVISIBLE);
-//                            list2.setVisibility(View.INVISIBLE);
-//                            allcontent.setVisibility(View.INVISIBLE);
-//                        }
-//                        else if(buttonID==department.getId()&&list1.getVisibility()==View.INVISIBLE)
-//                        {
-//                            buttonID=intro.getId();
-//                            intro.setColor(0xFFC9C9C8);
-//                            department.setColor(0xFFD59B00);
-//                            overview.setColor(0xFFC9C9C8);
-//                            intro.setImageResource(R.drawable.presentationdark);
-//                            department.setImageResource(R.drawable.department);
-//                            overview.setImageResource(R.drawable.overviewdark);
-//                            list1.setVisibility(View.VISIBLE);
-//                            //ModelAdapter adapter = new ModelAdapter(context,departmentList);
-//                            //list1.setAdapter(adapter);
-//                           // selectedList = departmentList;
-//                        }
-//                        break;
-//                    case R.id.overview:
-//
-//                        if(buttonID==0||buttonID!=overview.getId())
-//                        {
-//                            buttonID=overview.getId();
-//                            intro.setColor(0xFFC9C9C8);
-//                            department.setColor(0xFFC9C9C8);
-//                            overview.setColor(0xFFD59B00);
-//                            intro.setImageResource(R.drawable.presentationdark);
-//                            department.setImageResource(R.drawable.departmentdark);
-//                            overview.setImageResource(R.drawable.overview);
-//                            Log.d("departmenttest","OOO");
-//                            getDepartment();
-//                            list1.setVisibility(View.VISIBLE);
-//
-//                            //selectedList = overviewList;
-//                            list2.setVisibility(View.INVISIBLE);
-//                            allcontent.setVisibility(View.INVISIBLE);
-//                        }
-//                        else if(buttonID==overview.getId()&&list1.getVisibility()==View.VISIBLE)
-//                        {
-//                            intro.setColor(0xFFC9C9C8);
-//                            department.setColor(0xFFC9C9C8);
-//                            overview.setColor(0xFFC9C9C8);
-//                            intro.setImageResource(R.drawable.presentationdark);
-//                            department.setImageResource(R.drawable.departmentdark);
-//                            overview.setImageResource(R.drawable.overviewdark);
-//                            list1.setVisibility(View.INVISIBLE);
-//                            list2.setVisibility(View.INVISIBLE);
-//                            allcontent.setVisibility(View.INVISIBLE);
-//                        }
-//                        else if(buttonID==overview.getId()&&list1.getVisibility()==View.INVISIBLE)
-//                        {
-//                            buttonID=intro.getId();
-//                            intro.setColor(0xFFC9C9C8);
-//                            department.setColor(0xFFC9C9C8);
-//                            overview.setColor(0xFFD59B00);
-//                            intro.setImageResource(R.drawable.presentationdark);
-//                            department.setImageResource(R.drawable.departmentdark);
-//                            overview.setImageResource(R.drawable.overview);
-//                            Log.d("test","OOO");
-//                            getDepartment();
-//                            list1.setVisibility(View.VISIBLE);
-////                            ModelAdapter adapter = new ModelAdapter(context,overviewList);
-////                            list1.setAdapter(adapter);
-//                           // selectedList = overviewList;
-//                        }
-//                        break;
-//                }
-//        }
-//    };
     public AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int j, long l) {
@@ -270,9 +266,10 @@ public class ModelALL {
 
     public  void getName(String name)
     {
+        Log.d("ImageName",name);
         switch (name)
         {
-            case "industry.png":
+            case "Industry.png":
                 Institude="工學院";
                 departmentName="資訊工程學系";
                 break;
