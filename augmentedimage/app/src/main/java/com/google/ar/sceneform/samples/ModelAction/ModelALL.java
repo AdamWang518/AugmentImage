@@ -29,13 +29,14 @@ import java.util.ArrayList;
 
 public class ModelALL {
     String Institude;
-    String TypeID="180C275A-0AA8-4C47-B940-8E675FBB7C8B";
+    String TypeID;
+    Integer ButtonClick;
     String departmentName;
     View view = null;
     Context context = null;
     at.markushi.ui.CircleButton intro,department,overview;
     ListView list1 = null,list2 = null;
-    Button button;
+
     TextView content=null;
     LinearLayout allcontent=null;
     ArrayList<DepartmentModel> selectedList = null;
@@ -55,11 +56,11 @@ public class ModelALL {
         list2=this.view.findViewById(R.id.child_list);
         content=this.view.findViewById(R.id.content);
         allcontent=this.view.findViewById(R.id.allcontent);
-        button=this.view.findViewById(R.id.button);
+
         intro.setOnClickListener(buttonlistener);
         department.setOnClickListener(buttonlistener);
         overview.setOnClickListener(buttonlistener);
-        button.setOnClickListener(buttonlistener);
+
         list1.setOnItemClickListener(itemClickListener);
         list2.setOnItemClickListener(list2ClickListener);
         list1.setVisibility(View.INVISIBLE);
@@ -92,6 +93,9 @@ public class ModelALL {
                             intro.setImageResource(R.drawable.presentation);
                             department.setImageResource(R.drawable.departmentdark);
                             overview.setImageResource(R.drawable.overviewdark);
+                            TypeID="10A51FE8-19E1-40EB-857C-5649B97890C8";
+                            ButtonClick=1;
+                            getTintro();
                             list1.setVisibility(View.VISIBLE);
                             //ModelAdapter adapter = new ModelAdapter(context,introlist);
                             //list1.setAdapter(adapter);
@@ -120,6 +124,9 @@ public class ModelALL {
                             intro.setImageResource(R.drawable.presentation);
                             department.setImageResource(R.drawable.departmentdark);
                             overview.setImageResource(R.drawable.overviewdark);
+                            ButtonClick=1;
+                            TypeID="10A51FE8-19E1-40EB-857C-5649B97890C8";
+                            getTintro();
                             list1.setVisibility(View.VISIBLE);
                             //ModelAdapter adapter = new ModelAdapter(context,introlist);
                             //list1.setAdapter(adapter);
@@ -136,6 +143,8 @@ public class ModelALL {
                             intro.setImageResource(R.drawable.presentationdark);
                             department.setImageResource(R.drawable.department);
                             overview.setImageResource(R.drawable.overviewdark);
+                            ButtonClick=2;
+                            getOptionStage1("7D8514F0-41BE-4757-9AAE-256C789FDC92");
                             list1.setVisibility(View.VISIBLE);
                             //ModelAdapter adapter = new ModelAdapter(context,departmentList);
                             //list1.setAdapter(adapter);
@@ -164,6 +173,8 @@ public class ModelALL {
                             intro.setImageResource(R.drawable.presentationdark);
                             department.setImageResource(R.drawable.department);
                             overview.setImageResource(R.drawable.overviewdark);
+                            ButtonClick=2;
+                            getOptionStage1("7D8514F0-41BE-4757-9AAE-256C789FDC92");
                             list1.setVisibility(View.VISIBLE);
                             //ModelAdapter adapter = new ModelAdapter(context,departmentList);
                             //list1.setAdapter(adapter);
@@ -182,6 +193,9 @@ public class ModelALL {
                             department.setImageResource(R.drawable.departmentdark);
                             overview.setImageResource(R.drawable.overview);
                             Log.d("departmenttest","OOO");
+                            ButtonClick=3;
+                            TypeID="180C275A-0AA8-4C47-B940-8E675FBB7C8B";
+
                             getDepartment();
                             list1.setVisibility(View.VISIBLE);
 
@@ -211,6 +225,8 @@ public class ModelALL {
                             department.setImageResource(R.drawable.departmentdark);
                             overview.setImageResource(R.drawable.overview);
                             Log.d("testbutton","OOO");
+                            ButtonClick=3;
+                            TypeID="180C275A-0AA8-4C47-B940-8E675FBB7C8B";
                             getDepartment();
                             list1.setVisibility(View.VISIBLE);
 //                            ModelAdapter adapter = new ModelAdapter(context,overviewList);
@@ -227,7 +243,7 @@ public class ModelALL {
             for (int i=0;i<selectedList.size();i++) {
                 setDefault(list1,i);
             }
-            setSelectedItem(list1,j);
+            setSelectedItem(view);
             DepartmentModel model = selectedList.get(j);
             getOptionStage1("7D8514F0-41BE-4757-9AAE-256C789FDC92");//獲取介紹
 
@@ -244,12 +260,26 @@ public class ModelALL {
         }
 
     }
-    private void setSelectedItem(ListView listView,int index){
-        list1.getChildAt(index).findViewById(R.id.contentItem).setBackgroundColor(0xFFD59B00);
-        TextView title = list1.getChildAt(index).findViewById(R.id.title_item);
-        TextView author =list1.getChildAt(index).findViewById(R.id.author_item);
-        title.setTextColor(0xFFFFFFFF);
-        author.setTextColor(0xFFFFFFFF);
+    private void setSelectedItem(View v){
+       // Log.d("listitem:", String.valueOf(listView.getCount()));
+        //Log.d("listitem:", String.valueOf(index));
+        //View v = listView.getChildAt(index);
+        if(v!=null) {
+
+            v.findViewById(R.id.contentItem).setBackgroundColor(0xFFD59B00);
+            TextView title = v.findViewById(R.id.title_item);
+            TextView author =v.findViewById(R.id.author_item);
+            Log.d("depname",departmentName);
+            Log.d("depname", String.valueOf(ButtonClick));
+            if(ButtonClick==3)
+            {
+                departmentName=author.getText().toString();
+                Log.d("depname",departmentName);
+            }
+            title.setTextColor(0xFFFFFFFF);
+            author.setTextColor(0xFFFFFFFF);
+        }
+
 
     }
 
@@ -259,7 +289,7 @@ public class ModelALL {
             for (int j=0;j<optionModelArrayList.size();j++) {
                setDefault(list2,j);
             }
-            setSelectedItem(list2,i);
+            setSelectedItem(view);
         }
     };
 
@@ -283,7 +313,41 @@ public class ModelALL {
                 break;
         }
     }
+
     public void getDepartment(){
+        Log.d("getDepartmentlog","AAAAa");
+        String url = this.context.getResources().getString(R.string.url);
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url + String.format("getDepartments?Institude=%s&TypeID=%s",Institude,TypeID), new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray jsonArray) {
+
+                ArrayList<DepartmentModel> departmentList=new ArrayList<DepartmentModel>();
+                Log.d("arraylog",String.valueOf(jsonArray));
+                for (int i=0;i< jsonArray.length();i++)
+                {
+                    try {
+                        DepartmentModel model = new DepartmentModel();
+                        JSONObject json= jsonArray.getJSONObject(i);
+                        model.ID = json.getString("ID");
+                        model.Department=json.getString("Department");
+                        model.Image=json.getString("Image");
+                        model.TypeID=json.getString("TypeID");
+                        model.Institude=json.getString("Institude");
+                        model.Name=json.getString("Name");
+                        departmentList.add(model);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Log.d("arraylog","L");
+                    }
+                }
+                DepartmentAdapter adapter = new DepartmentAdapter(context,departmentList);
+                list1.setAdapter(adapter);
+                selectedList = departmentList;
+            }
+        },null);
+        this.mQueue.add(request);
+    }
+    public void getTintro(){
         Log.d("getDepartmentlog","AAAAa");
         String url = this.context.getResources().getString(R.string.url);
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url + String.format("getDepartments?Institude=%s&TypeID=%s",Institude,TypeID), new Response.Listener<JSONArray>() {
@@ -316,7 +380,6 @@ public class ModelALL {
 
         this.mQueue.add(request);
     }
-
     public void getOptionStage1(String typeid){
         Log.d("testlog","AAAAa");
         String url = this.context.getResources().getString(R.string.url);
