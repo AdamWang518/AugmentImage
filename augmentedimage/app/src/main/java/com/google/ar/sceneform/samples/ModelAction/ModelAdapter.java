@@ -42,13 +42,13 @@ public class ModelAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         View v = myInflater.inflate(R.layout.list_content, null);
         dataModel dataModel = list.get(i);
-        ImageView img = v.findViewById(R.id.img_item);
+        //ImageView img = v.findViewById(R.id.img_item);
         TextView title = v.findViewById(R.id.title_item);
         TextView author = v.findViewById(R.id.author_item);
         title.setText(dataModel.title);
         author.setText(dataModel.content);
         if(dataModel.imgUrl!=null) {
-            Glide.with(this.context).load(dataModel.imgUrl).into(img);
+            //Glide.with(this.context).load(dataModel.imgUrl).into(img);
         }
         return v;
     }

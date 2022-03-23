@@ -41,13 +41,13 @@ public class DepartmentAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         View v = myInflater.inflate(R.layout.list_content, null);
         DepartmentModel departmentModel = list.get(i);
-        ImageView img = v.findViewById(R.id.img_item);
+        //ImageView img = v.findViewById(R.id.img_item);
         TextView title = v.findViewById(R.id.title_item);
         TextView author = v.findViewById(R.id.author_item);
         title.setText(departmentModel.Name);
         author.setText(departmentModel.Department);
         if(departmentModel.Image!=null) {
-            Glide.with(this.context).load(departmentModel.Image).into(img);
+            //Glide.with(this.context).load(departmentModel.Image).into(img);
         }
         return v;
     }

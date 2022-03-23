@@ -252,11 +252,15 @@ public class ModelALL {
     private void setDefault(ListView listView,int index){
         View v = listView.getChildAt(index);
         if(v!=null) {
-            v.findViewById(R.id.contentItem).setBackgroundColor(0xFFC9C9C8);
+            //v.findViewById(R.id.contentItem).setBackgroundColor(0xFFC9C9C8);
             TextView title = v.findViewById(R.id.title_item);
             TextView author =v.findViewById(R.id.author_item);
-            title.setTextColor(0xFF888988);
-            author.setTextColor(0xFF888988);
+            LinearLayout img=v.findViewById(R.id.image);
+            img.setBackgroundResource(R.drawable.list);
+            title.setTextColor(0xFF8FE3FC);
+            author.setTextColor(0xFF8FE3FC);
+            float mDpi = context.getResources().getDisplayMetrics().densityDpi;
+            Log.d("mdpi", String.valueOf(mDpi));
         }
 
     }
@@ -266,9 +270,11 @@ public class ModelALL {
         //View v = listView.getChildAt(index);
         if(v!=null) {
 
-            v.findViewById(R.id.contentItem).setBackgroundColor(0xFFD59B00);
+            //v.findViewById(R.id.contentItem).setBackgroundColor(0xFFD59B00);
             TextView title = v.findViewById(R.id.title_item);
             TextView author =v.findViewById(R.id.author_item);
+            //LinearLayout img=v.findViewById(R.id.image);
+            //img.setBackgroundResource(R.drawable.listlight);
             Log.d("depname",departmentName);
             Log.d("depname", String.valueOf(ButtonClick));
             if(ButtonClick==3)
@@ -276,8 +282,8 @@ public class ModelALL {
                 departmentName=author.getText().toString();
                 Log.d("depname",departmentName);
             }
-            title.setTextColor(0xFFFFFFFF);
-            author.setTextColor(0xFFFFFFFF);
+            title.setTextColor(0xFFDBAA33);
+            author.setTextColor(0xFFDBAA33);
         }
 
 
