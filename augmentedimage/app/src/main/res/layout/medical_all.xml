@@ -34,10 +34,11 @@
             android:paddingLeft="20dp"/>
 
         <ScrollView
+            android:id="@+id/scroll"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.8"
             android:layout_marginTop="10dp"
+            android:layout_weight="0.8"
             android:background="@drawable/content"
             android:padding="25dp">
 

@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -38,6 +39,7 @@ public class ModelALL {
     String departmentName;
     View view = null;
     Context context = null;
+    ScrollView scrollView=null;
     at.markushi.ui.CircleButton intro,department,overview;
     ListView list1 = null;
     TextView title=null;
@@ -63,6 +65,7 @@ public class ModelALL {
         title=this.view.findViewById(R.id.title);
         allcontent=this.view.findViewById(R.id.allcontent);
         image=this.view.findViewById(R.id.imageView);
+        scrollView=this.view.findViewById(R.id.scroll);
 
         intro.setOnClickListener(buttonlistener);
         department.setOnClickListener(buttonlistener);
@@ -154,7 +157,7 @@ public class ModelALL {
                             //getOptionStage1("7D8514F0-41BE-4757-9AAE-256C789FDC92");
                             TypeID="7d8514f0-41be-4757-9aae-256c789fdc92";
 
-                            getDepartment();
+                            getInstitude();
                             list1.setVisibility(View.VISIBLE);
                             //ModelAdapter adapter = new ModelAdapter(context,departmentList);
                             //list1.setAdapter(adapter);
@@ -185,7 +188,7 @@ public class ModelALL {
                             overview.setImageResource(R.drawable.overviewdark);
                             ButtonClick=2;
                             TypeID="7d8514f0-41be-4757-9aae-256c789fdc92";
-                            getDepartment();
+                            getInstitude();
                             //getOptionStage1("7D8514F0-41BE-4757-9AAE-256C789FDC92");
                             list1.setVisibility(View.VISIBLE);
                             //ModelAdapter adapter = new ModelAdapter(context,departmentList);
@@ -252,12 +255,16 @@ public class ModelALL {
     public AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int j, long l) {
-            for (int i=0;i<selectedList.size();i++) {
-                setDefault(list1,i);
+            for (int i = 0; i < selectedList.size(); i++) {
+                setDefault(list1, i);
             }
             setSelectedItem(view);
             DepartmentModel model = selectedList.get(j);
-            getArticle(model.ID);
+            scrollView.fullScroll(ScrollView.FOCUS_UP);
+            if (TypeID !="180C275A-0AA8-4C47-B940-8E675FBB7C8B"){
+                Log.d("typeid",TypeID);
+                getArticle(model.ID);
+            }
             //getOptionStage1("7D8514F0-41BE-4757-9AAE-256C789FDC92");//獲取介紹
 
         }
@@ -288,8 +295,7 @@ public class ModelALL {
             TextView author =v.findViewById(R.id.author_item);
             //LinearLayout img=v.findViewById(R.id.image);
             //img.setBackgroundResource(R.drawable.listlight);
-            Log.d("depname",departmentName);
-            Log.d("depname", String.valueOf(ButtonClick));
+
             if(ButtonClick==3)
             {
                 departmentName=author.getText().toString();
@@ -403,7 +409,7 @@ public class ModelALL {
     public void getInstitude(){
         Log.d("getDepartmentlog","AAAAa");
         String url = this.context.getResources().getString(R.string.url);
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url + String.format("getDepartments?Institude=%s&TypeID=%s",Institude,TypeID), new Response.Listener<JSONArray>() {
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url + String.format("getOption?Department=%s&TypeID=%s",departmentName,TypeID), new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray jsonArray) {
                 ArrayList<DepartmentModel> departmentList=new ArrayList<DepartmentModel>();
@@ -417,7 +423,6 @@ public class ModelALL {
                         model.Department=json.getString("Department");
                         //model.Image=json.getString("Image");
                         model.TypeID=json.getString("TypeID");
-                        model.Institude=json.getString("Institude");
                         model.Name=json.getString("Name");
                         departmentList.add(model);
                     } catch (JSONException e) {
