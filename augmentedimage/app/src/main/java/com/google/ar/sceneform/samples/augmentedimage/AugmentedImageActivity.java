@@ -26,20 +26,29 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.ar.core.Anchor;
-import com.google.ar.core.AugmentedFace;
 import com.google.ar.core.AugmentedImage;
 import com.google.ar.core.Frame;
-import com.google.ar.core.TrackingState;
 import com.google.ar.sceneform.FrameTime;
 import com.google.ar.sceneform.Scene;
+import com.google.ar.sceneform.samples.ModelAction.DepartmentAdapter;
+import com.google.ar.sceneform.samples.ModelAction.buildingAdapter;
+import com.google.ar.sceneform.samples.Models.buildingModel;
 import com.google.ar.sceneform.samples.common.helpers.SnackbarHelper;
 import com.google.ar.sceneform.ux.ArFragment;
-import com.google.ar.sceneform.ux.AugmentedFaceNode;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -62,18 +71,21 @@ public class AugmentedImageActivity extends AppCompatActivity {
   private ArFragment arFragment;
   private int SPEECH_REQUEST_CODE = 0;
   private boolean isImageDetected=false;
+
   // Augmented image and its associated center pose anchor, keyed by the augmented image in
   // the database.
   private final HashMap<AugmentedImage, AugmentedImageNode> augmentedImageMap = new HashMap<>();
   Button btn = null;
   Scene scene = null;
+  RequestQueue mQueue =null;
   AugmentedImageNode node = null;
   AugmentedImage image = null;
+  View voiceView = null;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-
+    this.mQueue = Volley.newRequestQueue(this);
     arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.ux_fragment);
 
     scene = arFragment.getArSceneView().getScene();
@@ -271,12 +283,12 @@ public class AugmentedImageActivity extends AppCompatActivity {
               RecognizerIntent.EXTRA_RESULTS);
       String spokenText = results.get(0);
       AlertDialog.Builder alert = new AlertDialog.Builder(this);
-      View view = View.inflate(this, R.layout.listencheck, null);
-      EditText editText = view.findViewById(R.id.listenText);
+      voiceView = View.inflate(this, R.layout.listencheck, null);
+      EditText editText = voiceView.findViewById(R.id.listenText);
       editText.setText(spokenText);
-      alert.setView(view);
+      alert.setView(voiceView);
       alert.show();
-      Toast.makeText(this,spokenText,Toast.LENGTH_SHORT).show();
+      //Toast.makeText(this,spokenText,Toast.LENGTH_SHORT).show();
 
     }
   }
@@ -286,4 +298,38 @@ public class AugmentedImageActivity extends AppCompatActivity {
       finish();
       startActivity(intent);
     }
+
+  public void send(View view) {
+    String speak=null;
+    String url = this.getResources().getString(R.string.url);
+    //View sendview = View.inflate(this, R.layout.listencheck, null);
+    EditText editText = voiceView.findViewById(R.id.listenText);
+    speak=editText.getText().toString();
+    Log.d("speaked",speak);
+    JsonArrayRequest request=new JsonArrayRequest(Request.Method.GET, url + String.format("getVoice?text=%s", speak), new Response.Listener<JSONArray>() {
+      @Override
+      public void onResponse(JSONArray jsonArray) {
+        ArrayList<buildingModel> buildingList=new ArrayList<buildingModel>();
+        Log.d("arraylog",String.valueOf(jsonArray));
+        for (int i=0;i< jsonArray.length();i++)
+        {
+          try {
+            JSONObject json= jsonArray.getJSONObject(i);
+            int Floor=json.getInt("Floor");
+            int Similarity=json.getInt("Similarity");
+            String Department=json.getString("Department");
+            String BuildingName=json.getString("BuildingName");
+            buildingModel model = new buildingModel(Similarity,Floor,Department,BuildingName);
+            Log.d("Building",Similarity+" "+Floor+" "+Department+" "+BuildingName);
+            buildingList.add(model);
+          } catch (JSONException e) {
+            e.printStackTrace();
+            Log.d("Building",e.getMessage());
+          }
+        }
+        buildingAdapter adapter = new buildingAdapter(AugmentedImageActivity.this,buildingList);
+      }
+    }, null);
+    this.mQueue.add(request);
+  }
 }

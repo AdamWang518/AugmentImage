@@ -164,16 +164,19 @@ public class AugmentedImageNode extends AnchorNode {
                 SwitchTest intro = new SwitchTest(Name,context,view);
             });
       MedicalALLRenderable.thenAccept(
+
               (Renderable) -> {
                   View view = Renderable.getView();
                   ModelALL intro = new ModelALL(Name,context,view);
-              });
+              }
+              );
+
     this.anchor = image.createAnchor(image.getCenterPose());
     // Set the anchor based on the center of the image.
     setAnchor(this.anchor);
     //setModelRenderable(ListButtonRebderable,0f,0.1f, -1f * 0.13f);
 
-    setModelRenderable(MedicalALLRenderable,0f,+0.5f * 0.13f, 1f * 0.13f);
+    setModelRenderable(MedicalALLRenderable,-0.5f* 0.13f,+0.5f * 0.13f, 1f * 0.13f);
     //setModelRenderable(MedicalOneTagRenderable,1f * 0.13f,0.05f, -0.5f * 0.13f);
     //setModelRenderable(IndustryTagRenderable,2f * 0.13f,0.05f, -0.5f * 0.13f);
 

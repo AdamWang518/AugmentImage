@@ -7,48 +7,44 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.google.ar.sceneform.samples.Models.dataModel;
+import com.google.ar.sceneform.samples.Models.buildingModel;
 import com.google.ar.sceneform.samples.augmentedimage.R;
 
 import java.util.ArrayList;
 
-public class ModelAdapter extends BaseAdapter {
-
+public class buildingAdapter  extends BaseAdapter {
     Context context;
-    ArrayList<dataModel> list;
+    ArrayList<buildingModel> list;
     private LayoutInflater myInflater;
-    public ModelAdapter(Context context, ArrayList<dataModel> list){
+    public buildingAdapter(Context context, ArrayList<buildingModel> list){
         this.context = context;
         this.list = list;
         myInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
     @Override
     public int getCount() {
-        return this.list.size();
+        return 0;
     }
 
     @Override
     public Object getItem(int i) {
-        return this.list.get(i);
+        return null;
     }
 
     @Override
     public long getItemId(int i) {
-        return this.list.get(i).hashCode();
+        return 0;
     }
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         View v = myInflater.inflate(R.layout.list_content, null);
-        dataModel dataModel = list.get(i);
-        //ImageView img = v.findViewById(R.id.img_item);
+        buildingModel buildingModel = list.get(i);
+        String building=buildingModel.BuildingName+String.valueOf(buildingModel.Floor);
         TextView title = v.findViewById(R.id.title_item);
         TextView author = v.findViewById(R.id.author_item);
-        title.setText(dataModel.title);
-        author.setText(dataModel.content);
-        if(dataModel.imgUrl!=null) {
-            //Glide.with(this.context).load(dataModel.imgUrl).into(img);
-        }
+        title.setText(buildingModel.Department);
+        author.setText(building);
         return v;
     }
 }

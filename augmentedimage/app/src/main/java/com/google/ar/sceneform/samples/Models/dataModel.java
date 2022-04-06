@@ -1,4 +1,4 @@
-package com.google.ar.sceneform.samples.ModelAction;
+package com.google.ar.sceneform.samples.Models;
 
 public class dataModel {
     public String imgUrl;
