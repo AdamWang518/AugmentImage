@@ -71,7 +71,7 @@ public class AugmentedImageActivity extends AppCompatActivity {
   private ArFragment arFragment;
   private int SPEECH_REQUEST_CODE = 0;
   private boolean isImageDetected=false;
-
+  private AlertDialog show;
   // Augmented image and its associated center pose anchor, keyed by the augmented image in
   // the database.
   private final HashMap<AugmentedImage, AugmentedImageNode> augmentedImageMap = new HashMap<>();
@@ -287,7 +287,7 @@ public class AugmentedImageActivity extends AppCompatActivity {
       EditText editText = voiceView.findViewById(R.id.listenText);
       editText.setText(spokenText);
       alert.setView(voiceView);
-      alert.show();
+      show=alert.show();
       //Toast.makeText(this,spokenText,Toast.LENGTH_SHORT).show();
 
     }
@@ -300,6 +300,7 @@ public class AugmentedImageActivity extends AppCompatActivity {
     }
 
   public void send(View view) {
+    show.dismiss();
     String speak=null;
     String url = this.getResources().getString(R.string.url);
     //View sendview = View.inflate(this, R.layout.listencheck, null);

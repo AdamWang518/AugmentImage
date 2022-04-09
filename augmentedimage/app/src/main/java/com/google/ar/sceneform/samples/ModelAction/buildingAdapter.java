@@ -1,6 +1,7 @@
 package com.google.ar.sceneform.samples.ModelAction;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,25 +20,27 @@ public class buildingAdapter  extends BaseAdapter {
     public buildingAdapter(Context context, ArrayList<buildingModel> list){
         this.context = context;
         this.list = list;
+        Log.d("adapterList",String.valueOf(list));
         myInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
     @Override
     public int getCount() {
-        return 0;
+        return this.list.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return null;
+        return this.list.get(i);
     }
 
     @Override
     public long getItemId(int i) {
-        return 0;
+        return this.list.get(i).hashCode();
     }
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
+        Log.d("getAdapter","getAdapter");
         View v = myInflater.inflate(R.layout.list_content, null);
         buildingModel buildingModel = list.get(i);
         String building=buildingModel.BuildingName+String.valueOf(buildingModel.Floor);
