@@ -35,8 +35,10 @@ import com.google.ar.sceneform.samples.ModelAction.ModelTag;
 import com.google.ar.sceneform.samples.ModelAction.Navigation;
 import com.google.ar.sceneform.samples.ModelAction.NavigationMap;
 import com.google.ar.sceneform.samples.ModelAction.SwitchTest;
+import com.google.ar.sceneform.samples.Models.buildingModel;
 
 
+import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -71,6 +73,7 @@ public class AugmentedImageNode extends AnchorNode {
   private Anchor anchor = null;
   private String Name;
   private  Context context;
+  public Navigation Map;
   public AugmentedImageNode(Context context) {
     // Upon construction, start loading the models for the corners of the frame.
     if (ulCorner == null) {
@@ -193,11 +196,7 @@ public class AugmentedImageNode extends AnchorNode {
                   ModelALL intro = new ModelALL(Name,context,view);
               }
               );
-      NavigationListRenderable.thenAccept(
-              (Renderable) -> {
-                  Navigation = Renderable.getView();
-                  Navigation Map = new Navigation(context,Navigation,IndustryTag,MedicalOneTag,MedicalTwoTag,ManageTag,NavigationMap);
-              });
+
     this.anchor = image.createAnchor(image.getCenterPose());
     // Set the anchor based on the center of the image.
     setAnchor(this.anchor);
@@ -209,7 +208,12 @@ public class AugmentedImageNode extends AnchorNode {
         setModelRenderable(MedicalALLRenderable,-0.5f* 0.13f,+0.5f * 0.13f, 1f * 0.13f);
     }
     else if(Name.equals("CGU.png")){
-        setModelRenderable(NavigationListRenderable,0,0,3f * 0.13f);
+        NavigationListRenderable.thenAccept(
+                (Renderable) -> {
+                    Navigation = Renderable.getView();
+                    this.Map = new Navigation(context,Navigation,IndustryTag,MedicalOneTag,MedicalTwoTag,ManageTag,NavigationMap,new ArrayList<>());
+                });
+        setModelRenderable(NavigationListRenderable,0,0,2f * 0.13f);
         Log.d("NavigationImage","Navigation");
     };
     //setModelRenderable(MedicalOneTagRenderable,1f * 0.13f,0.05f, -0.5f * 0.13f);
@@ -237,7 +241,7 @@ public class AugmentedImageNode extends AnchorNode {
       cornerNode.setRenderable(renderable.getNow(null));
   }
 
-    private void setButtonRenderable(CompletableFuture<ViewRenderable> renderable,float x,float y,float z){
+  private void setButtonRenderable(CompletableFuture<ViewRenderable> renderable,float x,float y,float z){
         Node cornerNode;
         Vector3 localPosition = new Vector3();
         localPosition.set(x,y,z);
@@ -251,6 +255,11 @@ public class AugmentedImageNode extends AnchorNode {
 
   public  void removeAnchor(){
      this.anchor.detach();
+
+  }
+
+  public void initNavigation(ArrayList<buildingModel> list){
+        this.Map.refreshList(list);
 
   }
 

@@ -66,7 +66,7 @@ import java.util.Map;
  * href="https://developers.google.com/ar/develop/c/augmented-images/">Recognize and Augment
  * Images</a>.
  */
-public class AugmentedImageActivity extends AppCompatActivity {
+public  class AugmentedImageActivity extends AppCompatActivity{
 
   private ArFragment arFragment;
   private int SPEECH_REQUEST_CODE = 0;
@@ -307,6 +307,7 @@ public class AugmentedImageActivity extends AppCompatActivity {
     EditText editText = voiceView.findViewById(R.id.listenText);
     speak=editText.getText().toString();
     Log.d("speaked",speak);
+    AugmentedImageActivity self = this;
     JsonArrayRequest request=new JsonArrayRequest(Request.Method.GET, url + String.format("getVoice?text=%s", speak), new Response.Listener<JSONArray>() {
       @Override
       public void onResponse(JSONArray jsonArray) {
@@ -328,7 +329,7 @@ public class AugmentedImageActivity extends AppCompatActivity {
             Log.d("Building",e.getMessage());
           }
         }
-        buildingAdapter adapter = new buildingAdapter(AugmentedImageActivity.this,buildingList);
+        self.node.initNavigation(buildingList);
       }
     }, null);
     this.mQueue.add(request);
