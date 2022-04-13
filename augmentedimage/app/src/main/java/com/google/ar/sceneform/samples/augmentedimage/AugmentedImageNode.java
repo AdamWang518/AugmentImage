@@ -29,7 +29,6 @@ import com.google.ar.sceneform.math.Vector3;
 import com.google.ar.sceneform.rendering.FixedWidthViewSizer;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.rendering.ViewRenderable;
-import com.google.ar.sceneform.samples.ModelAction.DepartmentButton;
 import com.google.ar.sceneform.samples.ModelAction.ModelALL;
 import com.google.ar.sceneform.samples.ModelAction.ModelTag;
 import com.google.ar.sceneform.samples.ModelAction.Navigation;
@@ -109,10 +108,10 @@ public class AugmentedImageNode extends AnchorNode {
 //                modelList.setListView((department_name));
 //            });
       this.context=context;
-      IndustryTagRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.05f)).setView(context,R.layout.building_tag).build();
-      MedicalOneTagRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.05f)).setView(context,R.layout.building_tag).build();
-      ManageTagRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.05f)).setView(context,R.layout.building_tag).build();
-      MedicalTwoTagRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.05f)).setView(context,R.layout.building_tag).build();
+      IndustryTagRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.1f)).setView(context,R.layout.industry_building_tag).build();
+      MedicalOneTagRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.1f)).setView(context,R.layout.medical_one_building_tag).build();
+      ManageTagRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.1f)).setView(context,R.layout.manage_building_tag).build();
+      MedicalTwoTagRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.1f)).setView(context,R.layout.medical_two_building_tag).build();
       NavigationListRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.25f)).setView(context,R.layout.navigation_list).build();
       NavigationMapRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.25f)).setView(context,R.layout.navigation_content).build();
       MedicalALLRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.5f)).setView(context,R.layout.medical_all).build();
@@ -213,7 +212,11 @@ public class AugmentedImageNode extends AnchorNode {
                     Navigation = Renderable.getView();
                     this.Map = new Navigation(context,Navigation,IndustryTag,MedicalOneTag,MedicalTwoTag,ManageTag,NavigationMap,new ArrayList<>());
                 });
-        setModelRenderable(NavigationListRenderable,0,0,2f * 0.13f);
+        setModelRenderable(NavigationListRenderable,0f,0f,2f * 0.13f);//在垂直時z是上下，x是左右，y是深淺
+        setModelRenderable(MedicalOneTagRenderable,0f * 0.13f,+0.5f * 0.13f,1f * 0.13f);
+        setModelRenderable(MedicalTwoTagRenderable,-1f * 0.13f,+0.5f * 0.13f,1f * 0.13f);
+        setModelRenderable(IndustryTagRenderable,0.5f * 0.13f,+0.5f * 0.13f,1f * 0.13f);
+        setModelRenderable(ManageTagRenderable,-0.5f * 0.13f,+0.5f * 0.13f,1f * 0.13f);
         Log.d("NavigationImage","Navigation");
     };
     //setModelRenderable(MedicalOneTagRenderable,1f * 0.13f,0.05f, -0.5f * 0.13f);
@@ -259,7 +262,14 @@ public class AugmentedImageNode extends AnchorNode {
   }
 
   public void initNavigation(ArrayList<buildingModel> list){
-        this.Map.refreshList(list);
+      try {
+          this.Map.refreshList(list);
+      }
+      catch (Exception exception)
+      {
+          Log.d("explode",exception.getMessage());
+      }
+
 
   }
 

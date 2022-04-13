@@ -267,6 +267,7 @@ public  class AugmentedImageActivity extends AppCompatActivity{
   }
 
   public void listen(View view) {
+
     displaySpeechRecognizer();
   }
   private void displaySpeechRecognizer() {
@@ -278,19 +279,25 @@ public  class AugmentedImageActivity extends AppCompatActivity{
   @Override
   protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
-    if (requestCode == SPEECH_REQUEST_CODE && resultCode == RESULT_OK) {
-      List<String> results = data.getStringArrayListExtra(
-              RecognizerIntent.EXTRA_RESULTS);
-      String spokenText = results.get(0);
-      AlertDialog.Builder alert = new AlertDialog.Builder(this);
-      voiceView = View.inflate(this, R.layout.listencheck, null);
-      EditText editText = voiceView.findViewById(R.id.listenText);
-      editText.setText(spokenText);
-      alert.setView(voiceView);
-      show=alert.show();
-      //Toast.makeText(this,spokenText,Toast.LENGTH_SHORT).show();
+    try {
+      if (requestCode == SPEECH_REQUEST_CODE && resultCode == RESULT_OK) {
+        List<String> results = data.getStringArrayListExtra(
+                RecognizerIntent.EXTRA_RESULTS);
+        String spokenText = results.get(0);
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        voiceView = View.inflate(this, R.layout.listencheck, null);
+        EditText editText = voiceView.findViewById(R.id.listenText);
+        editText.setText(spokenText);
+        alert.setView(voiceView);
+        show=alert.show();
+        //Toast.makeText(this,spokenText,Toast.LENGTH_SHORT).show();
 
+      }
     }
+    catch (Exception exception){
+      Log.d("explode",exception.getMessage());
+    }
+
   }
 
     public void restart(View view) {
@@ -308,30 +315,46 @@ public  class AugmentedImageActivity extends AppCompatActivity{
     speak=editText.getText().toString();
     Log.d("speaked",speak);
     AugmentedImageActivity self = this;
-    JsonArrayRequest request=new JsonArrayRequest(Request.Method.GET, url + String.format("getVoice?text=%s", speak), new Response.Listener<JSONArray>() {
-      @Override
-      public void onResponse(JSONArray jsonArray) {
-        ArrayList<buildingModel> buildingList=new ArrayList<buildingModel>();
-        Log.d("arraylog",String.valueOf(jsonArray));
-        for (int i=0;i< jsonArray.length();i++)
-        {
-          try {
-            JSONObject json= jsonArray.getJSONObject(i);
-            int Floor=json.getInt("Floor");
-            int Similarity=json.getInt("Similarity");
-            String Department=json.getString("Department");
-            String BuildingName=json.getString("BuildingName");
-            buildingModel model = new buildingModel(Similarity,Floor,Department,BuildingName);
-            Log.d("Building",Similarity+" "+Floor+" "+Department+" "+BuildingName);
-            buildingList.add(model);
-          } catch (JSONException e) {
-            e.printStackTrace();
-            Log.d("Building",e.getMessage());
+    try {
+      JsonArrayRequest request=new JsonArrayRequest(Request.Method.GET, url + String.format("getVoice?text=%s", speak), new Response.Listener<JSONArray>() {
+        @Override
+        public void onResponse(JSONArray jsonArray) {
+          ArrayList<buildingModel> buildingList=new ArrayList<buildingModel>();
+          Log.d("arraylog",String.valueOf(jsonArray));
+          for (int i=0;i< jsonArray.length();i++)
+          {
+            try {
+              JSONObject json= jsonArray.getJSONObject(i);
+              int Floor=json.getInt("Floor");
+              int Similarity=json.getInt("Similarity");
+              String Department=json.getString("Department");
+              String BuildingName=json.getString("BuildingName");
+              buildingModel model = new buildingModel(Similarity,Floor,Department,BuildingName);
+              Log.d("Building",Similarity+" "+Floor+" "+Department+" "+BuildingName);
+              buildingList.add(model);
+            } catch (JSONException e) {
+              e.printStackTrace();
+              Log.d("Building",e.getMessage());
+            }
           }
+          try {
+            self.node.initNavigation(buildingList);
+          }
+          catch (Exception exception)
+          {
+            Log.d("explode",exception.getMessage());
+          }
+
         }
-        self.node.initNavigation(buildingList);
-      }
-    }, null);
-    this.mQueue.add(request);
+
+      }, null);
+      this.mQueue.add(request);
+
+    }
+    catch (Exception exception){
+      Log.d("explode",exception.getMessage());
+    }
+
+
   }
 }

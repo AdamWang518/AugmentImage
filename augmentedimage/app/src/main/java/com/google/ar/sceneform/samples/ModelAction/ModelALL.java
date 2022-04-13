@@ -16,6 +16,7 @@ import com.google.ar.sceneform.samples.Models.OptionModel;
 import com.google.ar.sceneform.samples.augmentedimage.R;
 
 import android.content.Context;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -44,6 +45,7 @@ public class ModelALL {
     ListView list1 = null;
     TextView title=null;
     TextView content=null;
+
     ImageView image=null;
     LinearLayout allcontent=null;
     ArrayList<DepartmentModel> selectedList = null;
@@ -53,7 +55,11 @@ public class ModelALL {
     public ModelALL(String Name,Context context ,View view){
 
         getName(Name);
+
         this.context = context;
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        int densityDpi = (int)(metrics.density * 160f);
+        Log.d("densityDpi", String.valueOf(densityDpi));
         this.view = view;
         this.mQueue = Volley.newRequestQueue(context);
         intro=this.view.findViewById(R.id.intro);
