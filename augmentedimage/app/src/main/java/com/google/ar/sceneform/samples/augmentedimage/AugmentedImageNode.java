@@ -112,7 +112,7 @@ public class AugmentedImageNode extends AnchorNode {
       MedicalOneTagRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.1f)).setView(context,R.layout.medical_one_building_tag).build();
       ManageTagRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.1f)).setView(context,R.layout.manage_building_tag).build();
       MedicalTwoTagRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.1f)).setView(context,R.layout.medical_two_building_tag).build();
-      NavigationListRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.25f)).setView(context,R.layout.navigation_list).build();
+      NavigationListRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.18f)).setView(context,R.layout.navigation_list).build();
       NavigationMapRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.25f)).setView(context,R.layout.navigation_content).build();
       MedicalALLRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.5f)).setView(context,R.layout.medical_all).build();
 
@@ -201,22 +201,22 @@ public class AugmentedImageNode extends AnchorNode {
     setAnchor(this.anchor);
     //setModelRenderable(ListButtonRebderable,0f,0.1f, -1f * 0.13f);
     Log.d("ImageName",Name) ;
-    if(!Name.equals("CGU.png"))
+    if(!Name.equals("navigation.png"))
     {
         Log.d("renderModel",Name);
         setModelRenderable(MedicalALLRenderable,-0.5f* 0.13f,+0.5f * 0.13f, 1f * 0.13f);
     }
-    else if(Name.equals("CGU.png")){
+    else if(Name.equals("navigation.png")){
         NavigationListRenderable.thenAccept(
                 (Renderable) -> {
                     Navigation = Renderable.getView();
                     this.Map = new Navigation(context,Navigation,IndustryTag,MedicalOneTag,MedicalTwoTag,ManageTag,NavigationMap,new ArrayList<>());
                 });
-        setModelRenderable(NavigationListRenderable,0f,0f,2f * 0.13f);//在垂直時z是上下，x是左右，y是深淺
-        setModelRenderable(MedicalOneTagRenderable,0f * 0.13f,+0.5f * 0.13f,1f * 0.13f);
-        setModelRenderable(MedicalTwoTagRenderable,-1f * 0.13f,+0.5f * 0.13f,1f * 0.13f);
-        setModelRenderable(IndustryTagRenderable,0.5f * 0.13f,+0.5f * 0.13f,1f * 0.13f);
-        setModelRenderable(ManageTagRenderable,-0.5f * 0.13f,+0.5f * 0.13f,1f * 0.13f);
+        setTagRenderable(NavigationListRenderable,0f,0f,0);//在垂直時z是上下，x是左右，y是深淺
+        setTagRenderable(MedicalOneTagRenderable,-0.5f * 0.13f,1.1f * 0.13f,-1.25f * 0.13f);//水平時z是深淺，x是左右，y是上下
+        setTagRenderable(MedicalTwoTagRenderable,-3f * 0.13f,1.1f * 0.13f,-1.25f * 0.13f);
+        setTagRenderable(IndustryTagRenderable,0.8f * 0.13f,1.1f * 0.13f,-1.5f * 0.13f);
+        setTagRenderable(ManageTagRenderable,-1.1f * 0.13f,1.1f * 0.13f,-2f * 0.13f);
         Log.d("NavigationImage","Navigation");
     };
     //setModelRenderable(MedicalOneTagRenderable,1f * 0.13f,0.05f, -0.5f * 0.13f);
@@ -239,11 +239,24 @@ public class AugmentedImageNode extends AnchorNode {
       cornerNode = new Node();
       cornerNode.setParent(this);
       cornerNode.setLocalPosition(localPosition);
+
       cornerNode.setLookDirection(Vector3.forward());
 
       cornerNode.setRenderable(renderable.getNow(null));
   }
 
+    private void setTagRenderable(CompletableFuture<ViewRenderable> renderable,float x,float y,float z){
+        Node cornerNode;
+        Vector3 localPosition = new Vector3();
+        localPosition.set(x,y,z);
+        cornerNode = new Node();
+        cornerNode.setParent(this);
+        cornerNode.setLocalPosition(localPosition);
+
+        //cornerNode.setLookDirection(Vector3.forward());
+
+        cornerNode.setRenderable(renderable.getNow(null));
+    }
   private void setButtonRenderable(CompletableFuture<ViewRenderable> renderable,float x,float y,float z){
         Node cornerNode;
         Vector3 localPosition = new Vector3();
