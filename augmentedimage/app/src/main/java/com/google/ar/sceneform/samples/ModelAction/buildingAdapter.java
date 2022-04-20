@@ -47,7 +47,8 @@ public class buildingAdapter  extends BaseAdapter {
         TextView title = v.findViewById(R.id.title_item);
         TextView author = v.findViewById(R.id.author_item);
         title.setText(buildingModel.Department);
-        author.setText(building);
+        //author.setText(building);
+        author.setText("");
         return v;
     }
 }

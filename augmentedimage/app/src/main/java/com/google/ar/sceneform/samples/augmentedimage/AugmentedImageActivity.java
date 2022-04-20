@@ -28,6 +28,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -66,7 +68,7 @@ import java.util.Map;
  * href="https://developers.google.com/ar/develop/c/augmented-images/">Recognize and Augment
  * Images</a>.
  */
-public  class AugmentedImageActivity extends AppCompatActivity{
+public  class AugmentedImageActivity extends AppCompatActivity {
 
   private ArFragment arFragment;
   private int SPEECH_REQUEST_CODE = 0;
