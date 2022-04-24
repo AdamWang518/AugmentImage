@@ -349,34 +349,39 @@ public class ModelALL {
     public void getDepartment(){
         Log.d("getDepartmentlog","AAAAa");
         String url = this.context.getResources().getString(R.string.url);
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url + String.format("getDepartments?Institude=%s&TypeID=%s",Institude,TypeID), new Response.Listener<JSONArray>() {
+        Log.d("linkTest",url+String.format("getDepartments?Institude=%s&TypeID=%s", Institude, TypeID));
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url + String.format("getDepartments?Institude=%s&TypeID=%s", Institude, TypeID), new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray jsonArray) {
 
-                ArrayList<DepartmentModel> departmentList=new ArrayList<DepartmentModel>();
-                Log.d("arraylog",String.valueOf(jsonArray));
-                for (int i=0;i< jsonArray.length();i++)
-                {
+                ArrayList<DepartmentModel> departmentList = new ArrayList<DepartmentModel>();
+                Log.d("arraylog", String.valueOf(jsonArray));
+                for (int i = 0; i < jsonArray.length(); i++) {
                     try {
                         DepartmentModel model = new DepartmentModel();
-                        JSONObject json= jsonArray.getJSONObject(i);
+                        JSONObject json = jsonArray.getJSONObject(i);
                         model.ID = json.getString("ID");
-                        model.Department=json.getString("Department");
+                        model.Department = json.getString("Department");
                         //model.Image=json.getString("Image");
-                        model.TypeID=json.getString("TypeID");
-                        model.Institude=json.getString("Institude");
-                        model.Name=json.getString("Name");
+                        model.TypeID = json.getString("TypeID");
+                        model.Institude = json.getString("Institude");
+                        model.Name = json.getString("Name");
                         departmentList.add(model);
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        Log.d("arraylog","L");
+                        Log.d("arraylog", "L");
                     }
                 }
-                DepartmentAdapter adapter = new DepartmentAdapter(context,departmentList);
+                DepartmentAdapter adapter = new DepartmentAdapter(context, departmentList);
                 list1.setAdapter(adapter);
                 selectedList = departmentList;
             }
-        },null);
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Log.d("volley error",volleyError.getMessage());
+            }
+        });
         this.mQueue.add(request);
     }
     public void getTintro(){
