@@ -25,8 +25,9 @@ public class Navigation {
     RequestQueue mQueue =null;
     ListView NavigationList;
     TextView industryTag,medical1Tag,medical2Tag,manageTag;
+    ImageView medical1road,medical2road,manageroad,industryroad;
     private  ArrayList<buildingModel> list;
-    public Navigation(Context context , View view,View Industry,View Medical1,View Medical2,View Manage,View Map,ArrayList<buildingModel> buildingList){
+    public Navigation(Context context , View view,View Industry,View Medical1,View Medical2,View Manage,View Map,View IndustryRoad,View Medical1Road,View Medical2Road,View ManageRoad,ArrayList<buildingModel> buildingList){
         this.context = context;
         this.view = view;
         this.mQueue = Volley.newRequestQueue(context);
@@ -38,10 +39,22 @@ public class Navigation {
         medical1Tag=Medical1.findViewById(R.id.medical_one_text);
         medical2Tag=Medical2.findViewById(R.id.medical_two_text);
         manageTag=Manage.findViewById(R.id.manage_text);
+
+        medical1road=Medical1Road.findViewById(R.id.medical_one_road);
+        medical2road=Medical2Road.findViewById(R.id.medical_two_road);
+        manageroad=ManageRoad.findViewById(R.id.manage_road);
+        industryroad=IndustryRoad.findViewById(R.id.Industry_road);
+
+
         industryTag.setVisibility(View.INVISIBLE);
         medical1Tag.setVisibility(View.INVISIBLE);
         medical2Tag.setVisibility(View.INVISIBLE);
         manageTag.setVisibility(View.INVISIBLE);
+
+        manageroad.setVisibility(View.INVISIBLE);
+        medical1road.setVisibility(View.INVISIBLE);
+        medical2road.setVisibility(View.INVISIBLE);
+        industryroad.setVisibility(View.INVISIBLE);
     }
     public AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
         @Override
@@ -52,11 +65,43 @@ public class Navigation {
             setSelectedItem(view);
             buildingModel model = list.get(j);
             setTag(model);
+            setRoad(model);
             Log.d("departmentClick",String.valueOf(model));
             //getOptionStage1("7D8514F0-41BE-4757-9AAE-256C789FDC92");//獲取介紹
 
         }
     };
+    private void setRoad(buildingModel model){
+        String BuildingName=model.BuildingName;
+        switch (BuildingName) {
+            case "第一醫學大樓":
+                manageroad.setVisibility(View.INVISIBLE);
+                medical1road.setVisibility(View.VISIBLE);
+                medical2road.setVisibility(View.INVISIBLE);
+                industryroad.setVisibility(View.INVISIBLE);
+                break;
+            case "第二醫學大樓":
+                manageroad.setVisibility(View.INVISIBLE);
+                medical1road.setVisibility(View.INVISIBLE);
+                medical2road.setVisibility(View.VISIBLE);
+                industryroad.setVisibility(View.INVISIBLE);
+                break;
+            case "工學大樓":
+                manageroad.setVisibility(View.INVISIBLE);
+                medical1road.setVisibility(View.INVISIBLE);
+                medical2road.setVisibility(View.INVISIBLE);
+                industryroad.setVisibility(View.VISIBLE);
+
+                break;
+            case "管理大樓":
+                manageroad.setVisibility(View.VISIBLE);
+                medical1road.setVisibility(View.INVISIBLE);
+                medical2road.setVisibility(View.INVISIBLE);
+                industryroad.setVisibility(View.INVISIBLE);
+
+                break;
+        }
+    }
     private void setTag(buildingModel model){
         String BuildingName=model.BuildingName;
         String Department=model.Department;
