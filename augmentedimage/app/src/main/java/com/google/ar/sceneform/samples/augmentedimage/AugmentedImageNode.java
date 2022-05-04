@@ -25,6 +25,7 @@ import com.google.ar.core.Anchor;
 import com.google.ar.core.AugmentedImage;
 import com.google.ar.sceneform.AnchorNode;
 import com.google.ar.sceneform.Node;
+import com.google.ar.sceneform.math.Quaternion;
 import com.google.ar.sceneform.math.Vector3;
 import com.google.ar.sceneform.rendering.FixedWidthViewSizer;
 import com.google.ar.sceneform.rendering.ModelRenderable;
@@ -122,10 +123,10 @@ public class AugmentedImageNode extends AnchorNode {
       NavigationMapRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.25f)).setView(context,R.layout.navigation_content).build();
       MedicalALLRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.5f)).setView(context,R.layout.medical_all).build();
 
-      MedicalOneRoadRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.5f)).setView(context,R.layout.medical_one_road).build();
+      MedicalOneRoadRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.6f)).setView(context,R.layout.medical_one_road).build();
       MedicalTwoRoadRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.75f)).setView(context,R.layout.medical_two_road).build();
-      IndustryRoadRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.5f)).setView(context,R.layout.industry_road).build();
-      ManageRoadRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.5f)).setView(context,R.layout.manage_road).build();
+      IndustryRoadRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.55f)).setView(context,R.layout.industry_road).build();
+      ManageRoadRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.55f)).setView(context,R.layout.manage_road).build();
 
 
       SwitchRenderable=ViewRenderable.builder().setSizer(new FixedWidthViewSizer(0.1f)).setView(context,R.layout.switch_test).build();
@@ -249,10 +250,10 @@ public class AugmentedImageNode extends AnchorNode {
         setTagRenderable(MedicalTwoTagRenderable,-3f * 0.13f,1.1f * 0.13f,-1.25f * 0.13f);
         setTagRenderable(IndustryTagRenderable,0.8f * 0.13f,1.1f * 0.13f,-1.5f * 0.13f);
         setTagRenderable(ManageTagRenderable,-1.1f * 0.13f,1.1f * 0.13f,-2f * 0.13f);
-        setRoadRenderable(MedicalOneRoadRenderable,-0.5f * 0.13f,0f,2.75f * 0.13f);
-        setRoadRenderable(MedicalTwoRoadRenderable,-0.75f * 0.13f,0f,3f * 0.13f);//ok
-        setRoadRenderable(IndustryRoadRenderable,0f,0f,2f * 0.13f);
-        setRoadRenderable(ManageRoadRenderable,0f,0f,2f * 0.13f);
+        setRoadRenderable(MedicalOneRoadRenderable,-0.25f * 0.13f,0f,3.25f * 0.13f);
+        setRoadRenderable(MedicalTwoRoadRenderable,-1f * 0.13f,0f,3.25f * 0.13f);//ok
+        setRoadRenderable(IndustryRoadRenderable,-0.4f* 0.13f,0f,2.5f * 0.13f);//ok
+        setRoadRenderable(ManageRoadRenderable,-0.25f* 0.13f,0f,2.4f * 0.13f);
         Log.d("NavigationImage","Navigation");
     };
     //setModelRenderable(MedicalOneTagRenderable,1f * 0.13f,0.05f, -0.5f * 0.13f);
@@ -300,8 +301,8 @@ public class AugmentedImageNode extends AnchorNode {
         cornerNode = new Node();
         cornerNode.setParent(this);
         cornerNode.setLocalPosition(localPosition);
-        cornerNode.setLookDirection(Vector3.down(),Vector3.forward());
-
+        //cornerNode.setLookDirection(Vector3.down(),Vector3.forward());
+        cornerNode.setLocalRotation(Quaternion.axisAngle(new Vector3(1, 0, 0), -90f));
         cornerNode.setRenderable(renderable.getNow(null));
     }
 
